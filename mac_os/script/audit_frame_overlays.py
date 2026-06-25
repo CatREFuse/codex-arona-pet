@@ -41,6 +41,9 @@ HEIGHT_DELTA_LIMIT = 24
 AREA_RATIO_LIMIT = 1.34
 POSITION_X_WARNING_LIMIT = 28
 POSITION_Y_WARNING_LIMIT = 28
+IDLE_WIDTH_RANGE_LIMIT = 8
+IDLE_CENTER_Y_RANGE_LIMIT = 4.0
+IDLE_AREA_RATIO_LIMIT = 1.10
 
 FRAME_COLORS = [
     (230, 63, 63, 86),
@@ -279,6 +282,26 @@ def analyze_state(character: str, state: str, frames: list[Image.Image], loop: b
     widths = [item.width for item in visible_metrics]
     heights = [item.height for item in visible_metrics]
     areas = [item.visible for item in visible_metrics]
+    center_ys = [item.cy for item in visible_metrics]
+    if state == "idle" and visible_metrics:
+        idle_reasons: list[str] = []
+        width_range = max(widths) - min(widths)
+        area_ratio = max(areas) / max(1, min(areas))
+        center_y_range = max(center_ys) - min(center_ys)
+        if width_range > IDLE_WIDTH_RANGE_LIMIT:
+            idle_reasons.append(f"idle width range {width_range}")
+        if area_ratio > IDLE_AREA_RATIO_LIMIT:
+            idle_reasons.append(f"idle visible-area range ratio {area_ratio:.2f}")
+        if center_y_range > IDLE_CENTER_Y_RANGE_LIMIT:
+            idle_reasons.append(f"idle center-y range {center_y_range:.1f}")
+        if idle_reasons:
+            size_issues.append({
+                "character": character,
+                "state": state,
+                "frame": 0,
+                "nextFrame": len(metrics) - 1,
+                "reason": "; ".join(idle_reasons),
+            })
     return {
         "frameCount": len(frames),
         "loop": loop,
@@ -326,6 +349,9 @@ def main() -> int:
             "heightDelta": HEIGHT_DELTA_LIMIT,
             "visibleAreaRatio": AREA_RATIO_LIMIT,
             "edgeLineWidthExcluded": EDGE_LINE_WIDTH,
+            "idleWidthRange": IDLE_WIDTH_RANGE_LIMIT,
+            "idleVisibleAreaRatio": IDLE_AREA_RATIO_LIMIT,
+            "idleCenterYRange": IDLE_CENTER_Y_RANGE_LIMIT,
         },
         "characters": {},
         "sizeIssues": [],
