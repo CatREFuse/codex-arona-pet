@@ -23,7 +23,9 @@ ATLAS_COLUMNS = 12
 ATLAS_ROWS = 9
 ATLAS_SIZE = (CELL_SIZE * ATLAS_COLUMNS, CELL_SIZE * ATLAS_ROWS)
 KEY_COLORS = {
+    "plana": (0, 255, 0),
     "plana-neo": (0, 255, 0),
+    "arona": (255, 0, 255),
     "arona-neo": (255, 0, 255),
 }
 
@@ -223,7 +225,7 @@ def remove_chroma_background(image: Image.Image, character: str, preserve_green_
 
 
 def remove_green_background(image: Image.Image, preserve_green_sign: bool = False) -> Image.Image:
-    return remove_chroma_background(image, "plana-neo", preserve_green_sign)
+    return remove_chroma_background(image, "plana", preserve_green_sign)
 
 
 def strip_source_edge_line(frame: Image.Image, state: str) -> Image.Image:

@@ -18,7 +18,7 @@ INFO_PLIST="$APP_CONTENTS/Info.plist"
 pkill -x "$APP_NAME" >/dev/null 2>&1 || true
 
 swift build
-"$ROOT_DIR/script/validate_pet_assets.py"
+"$ROOT_DIR/script/validate_pet_assets.py" --character plana --character arona
 
 BUILD_DIR="$(swift build --show-bin-path)"
 BUILD_BINARY="$BUILD_DIR/$APP_NAME"
@@ -57,7 +57,7 @@ cat >"$INFO_PLIST" <<PLIST
 PLIST
 
 CHARACTER_LIST="$(OPEN_PLANA_ROOT="$ROOT_DIR" "$APP_BINARY" --list-characters)"
-EXPECTED_CHARACTER_LIST=$'arona-neo\t阿罗娜-neo\nplana-neo\t普拉娜-neo'
+EXPECTED_CHARACTER_LIST=$'arona\t阿罗娜\nplana\t普拉娜'
 ACTUAL_CHARACTER_LIST="$(printf '%s\n' "$CHARACTER_LIST" | cut -f1,2 | LC_ALL=C sort)"
 if [ "$ACTUAL_CHARACTER_LIST" != "$EXPECTED_CHARACTER_LIST" ]; then
   printf 'unexpected characters:\n%s\n' "$CHARACTER_LIST" >&2
@@ -99,7 +99,7 @@ case "$MODE" in
     /usr/bin/log stream --info --style compact --predicate "subsystem == \"$BUNDLE_ID\""
     ;;
   --verify|verify)
-    OPEN_PLANA_ROOT="$ROOT_DIR" "$APP_BINARY" --verify-animations plana-neo arona-neo
+    OPEN_PLANA_ROOT="$ROOT_DIR" "$APP_BINARY" --verify-animations plana arona
     open_app
     sleep 2
     pgrep -x "$APP_NAME" >/dev/null

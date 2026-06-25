@@ -12,13 +12,18 @@ final class CharacterStore: ObservableObject {
     @Published private(set) var lastImportResult: String?
 
     private static let selectedCharacterDefaultsKey = "selectedCharacterId"
-    private static let defaultCharacterId = "plana-neo"
-    private static let supportedCharacterIds: Set<String> = ["arona-neo", "plana-neo"]
+    private static let defaultCharacterId = "plana"
+    private static let supportedCharacterIds: Set<String> = ["arona", "plana"]
+    private static let legacyCharacterIds: [String: String] = [
+        "arona-neo": "arona",
+        "plana-neo": "plana"
+    ]
     private let fileManager = FileManager.default
     private let frameCache = SpriteFrameCache()
 
     init() {
-        selectedCharacterId = UserDefaults.standard.string(forKey: Self.selectedCharacterDefaultsKey) ?? Self.defaultCharacterId
+        let savedCharacterId = UserDefaults.standard.string(forKey: Self.selectedCharacterDefaultsKey) ?? Self.defaultCharacterId
+        selectedCharacterId = Self.legacyCharacterIds[savedCharacterId] ?? savedCharacterId
     }
 
     var selectedCharacter: PetCharacter? {
@@ -131,7 +136,7 @@ final class CharacterStore: ObservableObject {
         try fileManager.createDirectory(at: taskDirectory, withIntermediateDirectories: true)
 
         let selected = selectedCharacter
-        let name = selected?.displayName ?? "普拉娜-neo"
+        let name = selected?.displayName ?? "普拉娜"
         let id = selected?.id ?? Self.defaultCharacterId
         let fileURL = taskDirectory.appendingPathComponent("generate-\(id)-character.md")
         let text = """

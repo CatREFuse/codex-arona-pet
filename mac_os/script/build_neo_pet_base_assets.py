@@ -46,11 +46,38 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--display-name", required=True)
     parser.add_argument("--description", required=True)
     parser.add_argument("--source", type=pathlib.Path, required=True)
+    parser.add_argument("--key-color", choices=("green", "magenta"), default="green")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
 
-def remove_green_background(source: pathlib.Path) -> Image.Image:
+def is_key_pixel(r: int, g: int, b: int, key_color: str) -> bool:
+    if key_color == "magenta":
+        magenta_strength = min(r, b) - g
+        return min(r, b) >= 115 and magenta_strength >= 30 and abs(r - b) <= 88
+    green_dominance = g - max(r, b)
+    return g >= 115 and green_dominance >= 30 and b <= g - 24
+
+
+def is_key_fringe(r: int, g: int, b: int, key_color: str) -> bool:
+    if key_color == "magenta":
+        magenta_strength = min(r, b) - g
+        return min(r, b) >= 100 and magenta_strength >= 18 and abs(r - b) <= 112
+    green_dominance = g - max(r, b)
+    return g >= 100 and green_dominance >= 18 and b <= g - 12
+
+
+def reduce_key_spill(r: int, g: int, b: int, key_color: str) -> tuple[int, int, int]:
+    if key_color == "magenta":
+        spill = max(0, min(r, b) - g)
+        if spill <= 0:
+            return r, g, b
+        target = max(g + 10, min(r, b) - min(spill, 36))
+        return min(r, target), g, min(b, target)
+    return r, min(g, max(r, b) + 10), b
+
+
+def remove_chroma_background(source: pathlib.Path, key_color: str) -> Image.Image:
     image = Image.open(source).convert("RGBA")
     pixels = image.load()
     width, height = image.size
@@ -60,16 +87,12 @@ def remove_green_background(source: pathlib.Path) -> Image.Image:
             r, g, b, a = pixels[x, y]
             if a == 0:
                 continue
-            green_dominance = g - max(r, b)
-            bg_like = g >= 115 and green_dominance >= 30 and b <= g - 24
-            fringe_like = g >= 100 and green_dominance >= 18 and b <= g - 12
-            if bg_like:
+            if is_key_pixel(r, g, b, key_color):
                 pixels[x, y] = (0, 0, 0, 0)
-            elif fringe_like:
+            elif is_key_fringe(r, g, b, key_color):
                 new_alpha = max(0, min(a, int(a * 0.45)))
-                pixels[x, y] = (r, min(g, max(r, b) + 10), b, new_alpha)
-            elif g > max(r, b) + 8:
-                pixels[x, y] = (r, max(r, b) + 8, b, a)
+                nr, ng, nb = reduce_key_spill(r, g, b, key_color)
+                pixels[x, y] = (nr, ng, nb, new_alpha)
 
     return image
 
@@ -143,11 +166,11 @@ def write_character(args: argparse.Namespace) -> None:
     qa_dir = out_dir / "qa"
     qa_dir.mkdir(parents=True, exist_ok=True)
 
-    keyed = remove_green_background(args.source)
+    keyed = remove_chroma_background(args.source, args.key_color)
     base = normalize_to_cell(keyed)
     atlas = make_atlas(base)
 
-    source_copy = qa_dir / "source-green.png"
+    source_copy = qa_dir / ("source-magenta.png" if args.key_color == "magenta" else "source-green.png")
     Image.open(args.source).save(source_copy)
     keyed.save(qa_dir / "source-keyed-full.png")
     base.save(qa_dir / "base-frame.png")
@@ -161,6 +184,10 @@ def write_character(args: argparse.Namespace) -> None:
         "description": args.description,
         "spritesheetPath": "spritesheet.webp",
     }
+    manifest_path = out_dir / "openplana-character.json"
+    previous_manifest = {}
+    if manifest_path.exists():
+        previous_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest = {
         "id": args.id,
         "displayName": args.display_name,
@@ -168,8 +195,10 @@ def write_character(args: argparse.Namespace) -> None:
         "spritesheetPath": "spritesheet.png",
         "codexSpritesheetPath": "spritesheet.webp",
     }
+    if "extraStates" in previous_manifest:
+        manifest["extraStates"] = previous_manifest["extraStates"]
     (out_dir / "pet.json").write_text(json.dumps(pet, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (out_dir / "openplana-character.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     metrics = {
         "id": args.id,

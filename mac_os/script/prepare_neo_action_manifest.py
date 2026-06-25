@@ -10,7 +10,11 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CHARACTER_ROOT = REPO_ROOT / "shared" / "Characters"
-DEFAULT_SCHEMA = CHARACTER_ROOT / "plana-neo" / "openplana-character.json"
+DEFAULT_SCHEMA = (
+    CHARACTER_ROOT / "plana" / "openplana-character.json"
+    if (CHARACTER_ROOT / "plana" / "openplana-character.json").exists()
+    else CHARACTER_ROOT / "plana-neo" / "openplana-character.json"
+)
 DEFAULT_OUTPUT = REPO_ROOT / ".codex" / "tmp" / "neo-pets" / "action-generation-manifest.json"
 
 ATLAS_ROWS = [
@@ -30,7 +34,7 @@ EXTRA_ACTIONS = {
     "edge-peek-left": "leaning diagonally inward while peeking out from behind the left screen edge toward the right; most of the body remains hidden off-screen, with only one side of the face, one shoulder, hair, and one hand protruding",
     "edge-peek-right": "leaning diagonally inward while peeking out from behind the right screen edge toward the left; most of the body remains hidden off-screen, with only one side of the face, one shoulder, hair, and one hand protruding",
     "idle-read": "calm reading loop, small head and book movement, no readable page text",
-    "idle-normal": "quiet standing loop with the original gun or umbrella prop held low, subtle breathing, hands close to body",
+    "idle-normal": "quiet standing loop, subtle breathing, hands close to body, no prop",
     "idle-sleep": "sleeping loop, closed eyes, subtle head bob, halo stable",
     "coding": "kneeling or sitting with a compact laptop computer, small hand movement, no readable UI text",
     "checking": "focused inspection pose with magnifier, subtle lean, visible eye kept open and steady, no symbols",
@@ -59,22 +63,27 @@ EXTRA_ACTIONS = {
 }
 
 CHARACTERS = {
-    "plana-neo": {
-        "display": "普拉娜-neo",
-        "reference": "/Users/tanshow/.codex/attachments/a8d82b9e-9ad7-4df2-8e55-ea4281fb39f7/image-1.png",
+    "plana": {
+        "display": "普拉娜",
+        "reference": "/Users/tanshow/.codex/attachments/452ffb10-fc84-441d-8309-dccec48b4b47/image-1.webp",
         "identity": (
-            "Use only the user-provided Plana standing illustration and the generated plana-neo base from this run. "
+            "Use only the user-provided Plana maid outfit illustration and the generated plana base from this run. "
             "Do not use any existing Plana desktop-pet image, old sprite, old generated image, or old prompt as identity reference. "
-            "Preserve white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
-            "reserved gray-lavender visible eye, black sailor uniform, white neckerchief, dark pleated skirt, long black coat, black boots, "
-            "and slim dark horizontal weapon or umbrella."
+            "Preserve Plana's white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
+            "reserved gray-lavender visible eye, small thin red oval halo, and the black-and-white maid outfit from the reference: white apron, "
+            "white frills, black dress, black bow, white cuffs, and compact chibi proportions. Add one pair of cat ears on top of the head; "
+            "the outer fur must be white and the inner fur must be soft pink. Keep the original Plana identity orientation; do not mirror-flip "
+            "her head ornament, halo direction, eye visibility, hair mass, or face layout."
         ),
         "no_prop_identity": (
-            "Use only the user-provided Plana standing illustration and the generated plana-neo base from this run. "
+            "Use only the user-provided Plana maid outfit illustration and the generated plana base from this run. "
             "Do not use any existing Plana desktop-pet image, old sprite, old generated image, or old prompt as identity reference. "
-            "Preserve white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
-            "reserved gray-lavender visible eye, black sailor uniform, white neckerchief, dark pleated skirt, long black coat, and black boots. "
-            "Do not draw the slim dark horizontal weapon, umbrella, gun, staff, rifle, sheath, or any long horizontal prop."
+            "Preserve Plana's white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
+            "reserved gray-lavender visible eye, small thin red oval halo, and the black-and-white maid outfit from the reference: white apron, "
+            "white frills, black dress, black bow, white cuffs, and compact chibi proportions. Add one pair of cat ears on top of the head; "
+            "the outer fur must be white and the inner fur must be soft pink. Keep the original Plana identity orientation; do not mirror-flip "
+            "her head ornament, halo direction, eye visibility, hair mass, or face layout. Do not draw a gun, umbrella, staff, rifle, sheath, "
+            "or any long horizontal prop."
         ),
         "key_color": "#00FF00",
         "key_label": "green",
@@ -83,18 +92,21 @@ CHARACTERS = {
             "no glow, no filled center. The halo opening must show the exact chroma-key color."
         ),
     },
-    "arona-neo": {
-        "display": "阿罗娜-neo",
-        "reference": "/Users/tanshow/.codex/attachments/a8d82b9e-9ad7-4df2-8e55-ea4281fb39f7/image-2.png",
+    "arona": {
+        "display": "阿罗娜",
+        "reference": "/Users/tanshow/.codex/attachments/452ffb10-fc84-441d-8309-dccec48b4b47/image-2.png",
         "identity": (
-            "Use the user-provided Arona standing illustration and the generated arona-neo base from this run. Preserve short pale blue-white bob hair, "
-            "right side braid, large white bow-like head ornament, one visible bright blue eye, gentle smile, blue translucent sailor top, white collar, "
-            "large white chest bow, white pleated skirt, white shoes, and white-blue umbrella with small blue charm."
+            "Use the user-provided Arona white swimsuit reference and the generated arona base from this run. Preserve Arona's short pale blue-white bob hair, "
+            "right-side braid cue, large white bow-like head ornament, cyan-blue floating halo, bright blue eyes, cheerful expression, white swimsuit, "
+            "white paw-like gloves and boot covers from the reference, pale blue tail-like accessory if visible in the reference, and compact chibi proportions. "
+            "Keep the original Arona identity orientation; do not mirror-flip the head ornament, halo direction, braid cue, hair mass, or face layout."
         ),
         "no_prop_identity": (
-            "Use the user-provided Arona standing illustration and the generated arona-neo base from this run. Preserve short pale blue-white bob hair, "
-            "right side braid, large white bow-like head ornament, one visible bright blue eye, gentle smile, blue translucent sailor top, white collar, "
-            "large white chest bow, white pleated skirt, and white shoes. Do not draw the umbrella, charm, gun, staff, rifle, sheath, or any long horizontal prop."
+            "Use the user-provided Arona white swimsuit reference and the generated arona base from this run. Preserve Arona's short pale blue-white bob hair, "
+            "right-side braid cue, large white bow-like head ornament, cyan-blue floating halo, bright blue eyes, cheerful expression, white swimsuit, "
+            "white paw-like gloves and boot covers from the reference, pale blue tail-like accessory if visible in the reference, and compact chibi proportions. "
+            "Keep the original Arona identity orientation; do not mirror-flip the head ornament, halo direction, braid cue, hair mass, or face layout. "
+            "Do not draw an umbrella, gun, staff, rifle, sheath, or any long horizontal prop."
         ),
         "key_color": "#FF00FF",
         "key_label": "magenta",
@@ -155,10 +167,10 @@ def identity_for_state(spec: dict, kind: str, state: str) -> str:
 
 
 def allows_original_prop(kind: str, state: str) -> bool:
-    return kind == "extra-state" and (state == "idle-normal" or state.startswith("edge-idle-normal"))
+    return False
 
 
-def prop_rule(kind: str, state: str) -> str:
+def prop_rule(character_id: str, kind: str, state: str) -> str:
     if allows_original_prop(kind, state):
         return "Prop rule: this idle-normal state may keep the character's original gun or umbrella prop."
     if state == "coding" or state.startswith("edge-coding"):
@@ -214,7 +226,7 @@ Asset type: OpenPlana neo desktop pet action source strip
 Primary request: Create an exact {frame_count}-frame chroma-key sprite source sheet for {character_id}, state {state}, arranged as a {columns} columns x {rows} rows grid. The whole source image must match the {columns}:{rows} grid aspect ratio, not square unless the grid is square. There must be exactly {frame_count} occupied equal square frame slots, read left to right, top to bottom.{unused_slot_rule} Do not draw grid lines, labels, numbers, or borders.
 Reference images: use {spec['reference']} as the original standing character reference; use shared/Characters/{character_id}/qa/{source_anchor} as the generated Q-version identity anchor for this run.
 Character identity: {identity_for_state(spec, kind, state)}
-Chibi style: compact 3-head Q-version desktop pet, clean anime sprite linework, soft but crisp shading, readable at 256x256.
+Chibi style: compact 3-head Q-version desktop pet, simple flat cel-shaded anime sprite, low-detail costume, few clean line groups, solid color blocks, one simple shadow tone, no ornate rendering, readable at 256x256.
 Action: {action}.
 Schema: kind={kind}; state={state}; frame_count={frame_count}; frame_duration=0.1666666667; loop={str(loop).lower()}.
 Timing: {loop_rule} Adjacent frames must transition naturally.
@@ -224,7 +236,7 @@ Slot isolation: keep every frame completely isolated in its own square slot. Lea
 Halo rule: {spec['halo']} Every pixel visible through the halo opening must be exact {key_color} in the source strip.
 Composition/framing: exactly {frame_count} complete poses in the configured grid. One complete character per occupied slot. Keep generous chroma-key padding around each character inside its slot. No overlap between slots. Each generated frame must already fit a 1:1 256x256 square frame before local processing.
 Side rule: {side_rule(state)}
-{prop_rule(kind, state)}
+{prop_rule(character_id, kind, state)}
 Material rule: {state_material_rule(state)}
 Safety: full-body and normal frames need at least 8px safe padding on all sides. Edge frames keep only the black edge line on the dock side; top, bottom, and opposite side need at least 8px safe padding.
 Avoid: fewer than {frame_count} frames, more than {frame_count} frames, merged frames, duplicate missing slots, back view, rear view, turned-away carried pose, blink, wink, closed-eye frame in non-sleep states, sudden open mouth, O-mouth, shout, gasp, white background, checkerboard, text, watermark, readable UI text, frame numbers, guide marks, scenery, shadows, glow, motion blur, speed lines, floating effects, cropped halo, cropped hair, cropped hands, cropped props, white or opaque halo center, filled halo interior, touching adjacent frame slots, changing face width, changing head silhouette, large size jumps between adjacent frames.
@@ -235,6 +247,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--schema", type=pathlib.Path, default=DEFAULT_SCHEMA)
     parser.add_argument("--output", type=pathlib.Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--character", action="append", choices=sorted(CHARACTERS))
     parser.add_argument("--include-atlas", action="store_true")
     return parser.parse_args()
 
@@ -244,7 +257,10 @@ def main() -> int:
     schema = json.loads(args.schema.read_text(encoding="utf-8"))
     actions = []
 
+    selected_characters = set(args.character or CHARACTERS)
     for character_id, spec in CHARACTERS.items():
+        if character_id not in selected_characters:
+            continue
         if args.include_atlas:
             for row_index, (state, action) in enumerate(ATLAS_ROWS):
                 frame_count = 12
@@ -285,12 +301,12 @@ def main() -> int:
 
     out = {
         "schemaSource": str(args.schema),
-        "characters": list(CHARACTERS),
+        "characters": [character_id for character_id in CHARACTERS if character_id in selected_characters],
         "actions": actions,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     for action in actions:
-        prompt_path = ROOT / action["promptPath"]
+        prompt_path = REPO_ROOT / action["promptPath"]
         prompt_path.parent.mkdir(parents=True, exist_ok=True)
         prompt_path.write_text(action["prompt"], encoding="utf-8")
         del action["prompt"]

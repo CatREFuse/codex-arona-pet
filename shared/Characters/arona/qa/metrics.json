@@ -1,0 +1,25 @@
+{
+  "id": "arona",
+  "source": "/Users/tanshow/.codex/generated_images/019effb3-1ad6-7e81-8b5d-94a847e3c59e/ig_0b5be8e31351272d016a3d63451edc8198a5d31b46ae5b0ba8.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "baseBounds": [
+    73,
+    16,
+    109,
+    228
+  ],
+  "atlasSize": [
+    3072,
+    2304
+  ],
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "note": "base-stage atlas uses generated identity art with lightweight deterministic row motion; action-specific imagegen rows are still required for final full animation fidelity."
+}

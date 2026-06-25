@@ -74,7 +74,7 @@ edge-peek: peeking from the screen edge, curious expression, no prop.
 把通用提示词、贴边 offset 和动作描述合并成一次 `$imagegen` 提示词。贴边模组如果一张横向条带出现生成画布裁切、相邻帧挤压、脸宽跳变或 edge line 吞掉角色，必须分成逐帧或每 2-3 帧小批量生成，再整理为同一模组的连续帧。输出保存后放入对应模组目录，命名为 `source-strip-chroma.png`、`source-strip-magenta.png` 或逐帧 `00.png` 到 `11.png`，再运行：
 
 ```bash
-./script/process_neo_action_assets.py --character plana-neo --state <state>
+./script/process_neo_action_assets.py --character plana --state <state>
 ```
 
 脚本会把素材整理为 `256x256` 透明帧，清理抠图背景，重建接触表，并执行素材校验。脚本不得单独重画、擦除或局部抠除光环；发现光环内孔不是抠图背景色、贴边外侧 4px 出现非黑素材像素、源条带中任一帧被 canvas 或相邻 frame slot 裁切、脸宽明显变化或头部轮廓跳变时，退回 imagegen 重新生成源图。

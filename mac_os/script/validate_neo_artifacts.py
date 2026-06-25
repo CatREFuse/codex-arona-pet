@@ -92,6 +92,10 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def default_character_ids() -> list[str]:
+    return sorted(path.parent.name for path in CHARACTER_ROOT.glob("*/pet.json"))
+
+
 def allows_original_prop(state: str) -> bool:
     return state == "idle-normal" or state.startswith("edge-idle-normal")
 
@@ -796,7 +800,7 @@ def check_motion(character: str, state: str, frames: list[Image.Image]) -> list[
 
 def main() -> int:
     args = parse_args()
-    characters = args.character or ["plana-neo", "arona-neo"]
+    characters = args.character or default_character_ids()
     prop_candidates: list[dict[str, object]] = []
     motion_issues: list[dict[str, object]] = []
     cutout_issues: list[dict[str, object]] = []

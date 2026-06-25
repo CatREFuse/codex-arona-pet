@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import pathlib
 import re
@@ -24,10 +25,19 @@ EXPECTED_EDGE_MAX_LOWER_DARK_DELTA = 0.35
 EXPECTED_EDGE_MIN_LOWER_DARK_RATIO = 0.65
 EXPECTED_EDGE_MAX_UPPER_WIDTH_DELTA = 18
 EXPECTED_EDGE_MAX_UPPER_WIDTH_RANGE = 20
+EXPECTED_EDGE_MIN_LINE_PIXELS = 900
+EXPECTED_EDGE_MAX_OPPOSITE_LINE_PIXELS = 32
+EXPECTED_EDGE_MAX_CONTENT_INSET = 20
 EXPECTED_UPPER_MATERIAL_Y_RANGE = range(32, 156)
 EXPECTED_MIN_SUCCESS_SIGN_AREA = 180
 EXPECTED_MIN_REJECTED_SIGN_AREA = 350
 EXPECTED_MIN_SIGN_FRAGMENT_AREA = 120
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--character", action="append")
+    return parser.parse_args()
 
 
 def _is_looping(config):
@@ -79,9 +89,12 @@ def _allowed_edge_touch(state):
 
 def _allowed_crop_sides(state):
     edge_touch = _allowed_edge_touch(state)
-    if edge_touch is None:
-        return set()
-    return {edge_touch}
+    allowed = set()
+    if edge_touch is not None:
+        allowed.add(edge_touch)
+    if state == "carried":
+        allowed.add("top")
+    return allowed
 
 
 def _visible_bounds(path, state):
@@ -134,6 +147,72 @@ def _edge_boundary_nonblack_pixels(path, state):
             if not (r < 35 and g < 35 and b < 35):
                 nonblack += 1
     return nonblack
+
+
+def _edge_boundary_black_pixels(path, state):
+    edge_touch = _allowed_edge_touch(state)
+    if edge_touch is None:
+        return 0
+
+    width, height = _dimensions(path)
+    raw = _rgba_bytes(path)
+    black = 0
+    for y in range(height):
+        row = y * width * 4
+        if edge_touch == "left":
+            xs = range(EXPECTED_EDGE_GUIDE_WIDTH)
+        else:
+            xs = range(width - EXPECTED_EDGE_GUIDE_WIDTH, width)
+        for x in xs:
+            offset = row + x * 4
+            r, g, b, a = raw[offset], raw[offset + 1], raw[offset + 2], raw[offset + 3]
+            if a > 16 and r < 35 and g < 35 and b < 35:
+                black += 1
+    return black
+
+
+def _edge_opposite_boundary_black_pixels(path, state):
+    edge_touch = _allowed_edge_touch(state)
+    if edge_touch is None:
+        return 0
+
+    width, height = _dimensions(path)
+    raw = _rgba_bytes(path)
+    black = 0
+    for y in range(height):
+        row = y * width * 4
+        if edge_touch == "left":
+            xs = range(width - EXPECTED_EDGE_GUIDE_WIDTH, width)
+        else:
+            xs = range(EXPECTED_EDGE_GUIDE_WIDTH)
+        for x in xs:
+            offset = row + x * 4
+            r, g, b, a = raw[offset], raw[offset + 1], raw[offset + 2], raw[offset + 3]
+            if a > 16 and r < 35 and g < 35 and b < 35:
+                black += 1
+    return black
+
+
+def _validate_edge_position(label, state, bounds, failures):
+    edge_touch = _allowed_edge_touch(state)
+    if edge_touch is None or bounds is None:
+        return
+
+    x, _, width, _ = bounds
+    if edge_touch == "left":
+        inset = x - EXPECTED_EDGE_GUIDE_WIDTH
+        if inset > EXPECTED_EDGE_MAX_CONTENT_INSET:
+            failures.append(
+                f"{label}: expected left-edge character content to start within "
+                f"{EXPECTED_EDGE_MAX_CONTENT_INSET}px of the left boundary line, got inset={inset}"
+            )
+    else:
+        inset = (EXPECTED_EXTRA[0] - EXPECTED_EDGE_GUIDE_WIDTH) - (x + width)
+        if inset > EXPECTED_EDGE_MAX_CONTENT_INSET:
+            failures.append(
+                f"{label}: expected right-edge character content to end within "
+                f"{EXPECTED_EDGE_MAX_CONTENT_INSET}px of the right boundary line, got inset={inset}"
+            )
 
 
 def _edge_material_metrics(path, state):
@@ -226,9 +305,10 @@ def _sign_color_components(path, state):
     return sorted(components, reverse=True)
 
 
-def _validate_sign_color(label, state, components, failures):
+def _validate_sign_color(label, state, components, failures, allowed_crop_sides=None):
     if "success" not in state and "rejected" not in state:
         return
+    allowed_crop_sides = allowed_crop_sides or set()
 
     expected_area = EXPECTED_MIN_SUCCESS_SIGN_AREA if "success" in state else EXPECTED_MIN_REJECTED_SIGN_AREA
     if not components or components[0][0] < expected_area:
@@ -242,7 +322,18 @@ def _validate_sign_color(label, state, components, failures):
         top = min_y
         right = EXPECTED_EXTRA[0] - max_x - 1
         bottom = EXPECTED_EXTRA[1] - max_y - 1
-        if min(left, top, right, bottom) < EXPECTED_VISIBLE_MARGIN:
+        side_margins = {
+            "left": left,
+            "top": top,
+            "right": right,
+            "bottom": bottom,
+        }
+        tight_margins = {
+            side: margin
+            for side, margin in side_margins.items()
+            if side not in allowed_crop_sides and margin < EXPECTED_VISIBLE_MARGIN
+        }
+        if tight_margins:
             failures.append(
                 f"{label}: expected sign color component to stay inside {EXPECTED_VISIBLE_MARGIN}px padding, "
                 f"got area={area} bounds={max_x - min_x + 1}x{max_y - min_y + 1}+{min_x}+{min_y} "
@@ -326,10 +417,15 @@ def _validate_visible_padding(label, bounds, failures, allowed_crop_sides=None):
     top_margin = y
     right_margin = EXPECTED_EXTRA[0] - (x + width)
     bottom_margin = EXPECTED_EXTRA[1] - (y + height)
-    if top_margin < EXPECTED_VISIBLE_MARGIN or bottom_margin < EXPECTED_VISIBLE_MARGIN:
+    if "top" not in allowed_crop_sides and top_margin < EXPECTED_VISIBLE_MARGIN:
         failures.append(
-            f"{label}: expected visible pixels to stay within vertical {EXPECTED_VISIBLE_MARGIN}px padding, "
-            f"got {width}x{height}+{x}+{y} with top={top_margin}, bottom={bottom_margin}"
+            f"{label}: expected visible pixels to stay within top {EXPECTED_VISIBLE_MARGIN}px padding, "
+            f"got {width}x{height}+{x}+{y} with top={top_margin}"
+        )
+    if "bottom" not in allowed_crop_sides and bottom_margin < EXPECTED_VISIBLE_MARGIN:
+        failures.append(
+            f"{label}: expected visible pixels to stay within bottom {EXPECTED_VISIBLE_MARGIN}px padding, "
+            f"got {width}x{height}+{x}+{y} with bottom={bottom_margin}"
         )
     if "left" not in allowed_crop_sides and left_margin < EXPECTED_VISIBLE_MARGIN:
         failures.append(
@@ -373,8 +469,17 @@ def _validate_atlas(sprite, failures):
 
 
 def main():
+    args = parse_args()
     failures = []
-    for pet_json in sorted(CHARACTER_ROOT.glob("*/pet.json")):
+    if args.character:
+        pet_json_paths = [CHARACTER_ROOT / character / "pet.json" for character in args.character]
+    else:
+        pet_json_paths = sorted(CHARACTER_ROOT.glob("*/pet.json"))
+
+    for pet_json in pet_json_paths:
+        if not pet_json.exists():
+            failures.append(f"{pet_json}: missing pet.json")
+            continue
         directory = pet_json.parent
         pet = json.loads(pet_json.read_text(encoding="utf-8"))
         sprite = directory / pet["spritesheetPath"]
@@ -446,10 +551,30 @@ def main():
                     edge_nonblack = _edge_boundary_nonblack_pixels(frame_path, state)
                     if edge_nonblack:
                         failures.append(f"{frame_path}: expected only black screen-edge pixels on the edge boundary, got {edge_nonblack} non-black pixels")
+                    edge_black = _edge_boundary_black_pixels(frame_path, state)
+                    if _allowed_edge_touch(state) is not None and edge_black < EXPECTED_EDGE_MIN_LINE_PIXELS:
+                        failures.append(
+                            f"{frame_path}: expected black screen-edge line on the dock side, "
+                            f"got {edge_black} black pixels"
+                        )
+                    opposite_edge_black = _edge_opposite_boundary_black_pixels(frame_path, state)
+                    if opposite_edge_black > EXPECTED_EDGE_MAX_OPPOSITE_LINE_PIXELS:
+                        failures.append(
+                            f"{frame_path}: expected no opposite-side black edge line, "
+                            f"got {opposite_edge_black} black pixels"
+                        )
+                    _validate_edge_position(frame_path, state, bounds, failures)
                     edge_metrics = _edge_material_metrics(frame_path, state)
                     if edge_metrics is not None:
                         edge_loop_metrics.append(edge_metrics)
-                    _validate_sign_color(frame_path, state, _sign_color_components(frame_path, state), failures)
+                    allowed_crop_sides = _allowed_crop_sides(state)
+                    _validate_sign_color(
+                        frame_path,
+                        state,
+                        _sign_color_components(frame_path, state),
+                        failures,
+                        allowed_crop_sides=allowed_crop_sides,
+                    )
 
                 if _is_looping(config) and len(frame_paths) >= 2:
                     first = directory / frame_paths[0]

@@ -10,7 +10,7 @@ import sys
 from dataclasses import asdict, dataclass
 
 try:
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageChops, ImageDraw, ImageFont
 except ModuleNotFoundError:
     fallback_python = shutil.which("python3.10")
     if fallback_python and pathlib.Path(fallback_python).resolve() != pathlib.Path(sys.executable).resolve():
@@ -44,6 +44,7 @@ POSITION_Y_WARNING_LIMIT = 28
 IDLE_WIDTH_RANGE_LIMIT = 8
 IDLE_CENTER_Y_RANGE_LIMIT = 4.0
 IDLE_AREA_RATIO_LIMIT = 1.10
+MIRROR_ALPHA_SIMILARITY_WARNING = 0.94
 
 FRAME_COLORS = [
     (230, 63, 63, 86),
@@ -82,7 +83,7 @@ def parse_args() -> argparse.Namespace:
 def character_dirs(names: list[str] | None) -> list[pathlib.Path]:
     if names:
         return [CHARACTER_ROOT / name for name in names]
-    return sorted(path for path in CHARACTER_ROOT.iterdir() if path.is_dir() and path.name.endswith("-neo"))
+    return sorted(path.parent for path in CHARACTER_ROOT.glob("*/pet.json"))
 
 
 def edge_side(state: str) -> str | None:
@@ -340,6 +341,52 @@ def draw_overview(output: pathlib.Path, state_reports: dict[str, dict[str, objec
     return output
 
 
+def alpha_mask_for_similarity(image: Image.Image, state: str) -> Image.Image:
+    metric_image = frame_for_metrics(image.convert("RGBA"), state)
+    return metric_image.getchannel("A").point(lambda value: 255 if value > 16 else 0)
+
+
+def mirror_alpha_similarity(left_frame: Image.Image, right_frame: Image.Image) -> float:
+    left_mask = alpha_mask_for_similarity(left_frame, "edge-left")
+    right_mask = alpha_mask_for_similarity(right_frame, "edge-right").transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    union = ImageChops.lighter(left_mask, right_mask)
+    intersection = ImageChops.multiply(left_mask, right_mask)
+    union_pixels = sum(1 for value in union.getdata() if value > 0)
+    if union_pixels == 0:
+        return 0.0
+    intersection_pixels = sum(1 for value in intersection.getdata() if value > 0)
+    return intersection_pixels / union_pixels
+
+
+def edge_mirror_warnings(character: str, extra_states: dict[str, tuple[list[Image.Image], bool]]) -> list[dict[str, object]]:
+    warnings: list[dict[str, object]] = []
+    for left_state, (left_frames, _) in extra_states.items():
+        if not left_state.startswith("edge-") or not left_state.endswith("-left"):
+            continue
+        right_state = f"{left_state[:-5]}-right"
+        if right_state not in extra_states:
+            continue
+        right_frames = extra_states[right_state][0]
+        if len(left_frames) != len(right_frames):
+            continue
+        similarities = [
+            mirror_alpha_similarity(left_frame, right_frame)
+            for left_frame, right_frame in zip(left_frames, right_frames)
+        ]
+        high_similarity_count = sum(1 for value in similarities if value >= MIRROR_ALPHA_SIMILARITY_WARNING)
+        if high_similarity_count >= max(3, len(similarities) // 2):
+            warnings.append({
+                "character": character,
+                "leftState": left_state,
+                "rightState": right_state,
+                "reason": "left/right edge alpha silhouettes are highly similar after mirroring; verify these were not produced as naive mirror pairs",
+                "maxSimilarity": max(similarities),
+                "highSimilarityFrames": high_similarity_count,
+                "threshold": MIRROR_ALPHA_SIMILARITY_WARNING,
+            })
+    return warnings
+
+
 def main() -> int:
     args = parse_args()
     result: dict[str, object] = {
@@ -352,10 +399,12 @@ def main() -> int:
             "idleWidthRange": IDLE_WIDTH_RANGE_LIMIT,
             "idleVisibleAreaRatio": IDLE_AREA_RATIO_LIMIT,
             "idleCenterYRange": IDLE_CENTER_Y_RANGE_LIMIT,
+            "mirrorAlphaSimilarityWarning": MIRROR_ALPHA_SIMILARITY_WARNING,
         },
         "characters": {},
         "sizeIssues": [],
         "positionWarnings": [],
+        "mirrorWarnings": [],
     }
 
     for character_dir in character_dirs(args.character):
@@ -367,13 +416,16 @@ def main() -> int:
         for state, frames in load_atlas_frames(character_dir).items():
             state_reports[state] = analyze_state(character, state, frames, True, overlay_root / f"{state}.png")
 
-        for state, (frames, loop) in load_extra_frames(character_dir).items():
+        extra_states = load_extra_frames(character_dir)
+        for state, (frames, loop) in extra_states.items():
             state_reports[state] = analyze_state(character, state, frames, loop, overlay_root / f"{state}.png")
 
         overview = draw_overview(QA_ROOT / character / "overview.png", state_reports)
+        mirror_warnings = edge_mirror_warnings(character, extra_states)
         character_report = {
             "displayName": manifest.get("displayName", character),
             "overviewPath": str(overview.relative_to(REPO_ROOT)),
+            "mirrorWarnings": mirror_warnings,
             "states": state_reports,
         }
         result["characters"][character] = character_report
@@ -381,6 +433,7 @@ def main() -> int:
         for state, report in state_reports.items():
             result["sizeIssues"].extend(report["sizeIssues"])
             result["positionWarnings"].extend(report["positionWarnings"])
+        result["mirrorWarnings"].extend(mirror_warnings)
 
     result["ok"] = len(result["sizeIssues"]) == 0
     output_path = args.json_out or (QA_ROOT / "overlay-audit.json")
@@ -390,7 +443,8 @@ def main() -> int:
     print(f"ok={str(result['ok']).lower()}")
     print(f"sizeIssues={len(result['sizeIssues'])}")
     print(f"positionWarnings={len(result['positionWarnings'])}")
-    print(f"report={output_path.relative_to(REPO_ROOT)}")
+    print(f"mirrorWarnings={len(result['mirrorWarnings'])}")
+    print(f"report={output_path.resolve().relative_to(REPO_ROOT)}")
     for issue in result["sizeIssues"][:40]:
         print(f"size {issue['character']}:{issue['state']} {issue['frame']}->{issue['nextFrame']} {issue['reason']}")
     if len(result["sizeIssues"]) > 40:
