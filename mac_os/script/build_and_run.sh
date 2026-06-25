@@ -57,9 +57,12 @@ cat >"$INFO_PLIST" <<PLIST
 PLIST
 
 CHARACTER_LIST="$(OPEN_PLANA_ROOT="$ROOT_DIR" "$APP_BINARY" --list-characters)"
-printf '%s\n' "$CHARACTER_LIST" | grep -F $'plana-new\t普拉娜-新' >/dev/null
-printf '%s\n' "$CHARACTER_LIST" | grep -F $'plana-neo\t普拉娜-neo' >/dev/null
-printf '%s\n' "$CHARACTER_LIST" | grep -F $'arona-neo\t阿罗娜-neo' >/dev/null
+EXPECTED_CHARACTER_LIST=$'arona-neo\t阿罗娜-neo\nplana-neo\t普拉娜-neo'
+ACTUAL_CHARACTER_LIST="$(printf '%s\n' "$CHARACTER_LIST" | cut -f1,2 | LC_ALL=C sort)"
+if [ "$ACTUAL_CHARACTER_LIST" != "$EXPECTED_CHARACTER_LIST" ]; then
+  printf 'unexpected characters:\n%s\n' "$CHARACTER_LIST" >&2
+  exit 1
+fi
 
 open_app() {
   OPEN_PLANA_ROOT="$ROOT_DIR" /usr/bin/open -n "$APP_BUNDLE"

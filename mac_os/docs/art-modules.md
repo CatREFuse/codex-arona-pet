@@ -2,7 +2,7 @@
 
 ## 资源标准
 
-当前角色为 `plana`。扩展动作帧统一使用 `256x256` 透明 PNG，运行时通过 `openplana-character.json` 的 `extraStates` 播放。
+当前角色为 `plana-neo` 和 `arona-neo`。扩展动作帧统一使用 `256x256` 透明 PNG，运行时通过 `openplana-character.json` 的 `extraStates` 播放。
 
 贴边睡觉模组是画风基准：3 头身 QQ 人比例，白发、黑色服装、红白光环、浅灰发丝阴影、干净透明边缘。贴边模组需要保留屏幕边界黑线：左贴边黑线贴齐画布左边，右贴边黑线贴齐画布右边；同一角色的外露比例、头顶光环和手部位置保持一致。
 
@@ -74,7 +74,7 @@
 
 ## 检查项
 
-- `./script/process_pet_assets.sh`
+- `./script/process_neo_action_assets.py --character plana-neo --state <state>`
 - `./script/validate_pet_assets.py`
 - 第一轮视觉检查：查看 `.codex/tmp/asset-audit-after/all-contact-sheets.png`。
 - 第二轮运行检查：执行 `./script/build_and_run.sh --verify`，再按待机、运行、等待、检查、失败、完成、拖拽、点击检查实际窗口。

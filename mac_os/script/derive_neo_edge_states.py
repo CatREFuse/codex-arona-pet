@@ -10,11 +10,11 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CHARACTER_ROOT = REPO_ROOT / "shared" / "Characters"
-DEFAULT_SCHEMA = CHARACTER_ROOT / "plana" / "openplana-character.json"
+DEFAULT_SCHEMA = CHARACTER_ROOT / "plana-neo" / "openplana-character.json"
 CELL_SIZE = 256
 EDGE_GUIDE_WIDTH = 4
 FRAME_DURATION = 1 / 6
-TEMPLATE_CHARACTER = "plana"
+TEMPLATE_CHARACTER = "plana-neo"
 EDGE_LEAN_DEGREES = 10
 EDGE_SIGN_LEAN_DEGREES = 4
 EDGE_SIGN_MIN_WIDTH = 134

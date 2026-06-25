@@ -10,7 +10,7 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CHARACTER_ROOT = REPO_ROOT / "shared" / "Characters"
-DEFAULT_SCHEMA = CHARACTER_ROOT / "plana" / "openplana-character.json"
+DEFAULT_SCHEMA = CHARACTER_ROOT / "plana-neo" / "openplana-character.json"
 DEFAULT_OUTPUT = REPO_ROOT / ".codex" / "tmp" / "neo-pets" / "action-generation-manifest.json"
 
 ATLAS_ROWS = [

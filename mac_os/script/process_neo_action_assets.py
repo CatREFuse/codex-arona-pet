@@ -494,8 +494,8 @@ def update_character_manifest(character: str, state: str, frame_count: int, loop
 
 def source_grid_path(action: dict) -> pathlib.Path:
     if "sourceGridPath" in action:
-        return ROOT / action["sourceGridPath"]
-    return (ROOT / action["sourceStripPath"]).with_name("source-grid-chroma.png")
+        return REPO_ROOT / action["sourceGridPath"]
+    return (REPO_ROOT / action["sourceStripPath"]).with_name("source-grid-chroma.png")
 
 
 def prepared_frames(action: dict) -> list[Image.Image] | None:
