@@ -1,0 +1,25 @@
+{
+  "id": "plana-neo",
+  "source": "/Users/tanshow/.codex/generated_images/019ef00e-7716-7cd3-bf9d-52bf56c55415/ig_0313f4920737ee99016a39730ff26081998d99c741ea07ba3b.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "baseBounds": [
+    65,
+    16,
+    125,
+    228
+  ],
+  "atlasSize": [
+    3072,
+    2304
+  ],
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "note": "base-stage atlas uses generated identity art with lightweight deterministic row motion; action-specific imagegen rows are still required for final full animation fidelity."
+}

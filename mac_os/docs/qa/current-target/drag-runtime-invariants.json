@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "id": "drag-window-follows-pointer-anchor",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "mouseDragged should move the window from the fixed pointer anchor while dragging"
+    },
+    {
+      "id": "drag-start-keeps-pointer-anchor-on-sprite",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "edge drag start should expand/reposition before isDragging flips so the original sprite point stays under the pointer"
+    },
+    {
+      "id": "prepare-clears-hidden-content-offset",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "prepareForDragging should clear hosted content offset before floating drag"
+    },
+    {
+      "id": "prepare-repositions-from-sprite-anchor",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "prepareForDragging should compute floating frame origin from the clicked sprite point"
+    },
+    {
+      "id": "drag-state-disables-docked-offset",
+      "ok": true,
+      "file": "Sources/OpenPlana/Views/PetOverlayView.swift",
+      "detail": "SwiftUI sprite edge offset should be zero while dragging"
+    },
+    {
+      "id": "drag-state-disables-hosted-offset",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "AppKit hosted content offset should be zero while dragging"
+    },
+    {
+      "id": "begin-dragging-clears-edge-state",
+      "ok": true,
+      "file": "Sources/OpenPlana/Stores/AppModel.swift",
+      "detail": "beginDragging should leave edge state before the carried animation is shown"
+    },
+    {
+      "id": "dock-side-binding-does-not-dock-while-dragging",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "dockSide changes should not auto-dock while the user is dragging"
+    },
+    {
+      "id": "release-only-docking",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "edge docking should happen on mouseUp, not during mouseDragged"
+    },
+    {
+      "id": "drag-updates-edge-preview",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "mouseDragged should update the edge drop preview before release"
+    },
+    {
+      "id": "preview-renderer-exists",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "edge drop preview renderer should exist"
+    },
+    {
+      "id": "preview-is-20-percent-black-rounded-rect",
+      "ok": true,
+      "file": "Sources/OpenPlana/Services/PetWindowController.swift",
+      "detail": "edge drop preview should be a 20% black rounded rectangle"
+    }
+  ],
+  "failures": [],
+  "humanVerificationRequired": [
+    "Confirm the cursor remains visually over the same sprite point when starting a drag from a docked edge.",
+    "Confirm only the edge drop preview is visible before mouseUp; the docked offset should not apply until release."
+  ]
+}
