@@ -27,6 +27,7 @@ KEY_COLORS = {
     "plana-neo": (0, 255, 0),
     "arona": (255, 0, 255),
     "arona-neo": (255, 0, 255),
+    "kotonoha-neo": (255, 0, 255),
 }
 
 

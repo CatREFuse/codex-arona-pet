@@ -1,0 +1,25 @@
+{
+  "id": "kotonoha-neo",
+  "source": "shared/Characters/kotonoha-neo/qa/source-magenta.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "baseBounds": [
+    53,
+    16,
+    149,
+    228
+  ],
+  "atlasSize": [
+    3072,
+    2304
+  ],
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "note": "base-stage atlas uses generated identity art with lightweight deterministic row motion; action-specific imagegen rows are still required for final full animation fidelity."
+}
