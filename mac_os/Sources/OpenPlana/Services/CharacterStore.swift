@@ -13,7 +13,7 @@ final class CharacterStore: ObservableObject {
 
     private static let selectedCharacterDefaultsKey = "selectedCharacterId"
     private static let defaultCharacterId = "plana"
-    private static let supportedCharacterIds: Set<String> = ["arona", "kotonoha-neo", "plana"]
+    private static let supportedCharacterIds: Set<String> = ["arona", "arona-swimsuit", "kotonoha-neo", "plana", "plana-cat-maid"]
     private static let legacyCharacterIds: [String: String] = [
         "arona-neo": "arona",
         "plana-neo": "plana"

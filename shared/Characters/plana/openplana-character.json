@@ -1,7 +1,7 @@
 {
   "id": "plana",
   "displayName": "普拉娜",
-  "description": "穿女仆装与猫耳的普拉娜 Q 版桌宠。",
+  "description": "基于新立绘重绘的普拉娜 Q 版桌宠。",
   "spritesheetPath": "spritesheet.png",
   "codexSpritesheetPath": "spritesheet.webp",
   "extraStates": {
@@ -20,7 +20,7 @@
         "extra/idle-normal/10.png",
         "extra/idle-normal/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "awaiting": {
@@ -38,7 +38,7 @@
         "extra/awaiting/10.png",
         "extra/awaiting/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "idle-read": {
@@ -56,7 +56,7 @@
         "extra/idle-read/10.png",
         "extra/idle-read/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "idle-sleep": {
@@ -74,7 +74,7 @@
         "extra/idle-sleep/10.png",
         "extra/idle-sleep/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "coding": {
@@ -92,7 +92,7 @@
         "extra/coding/10.png",
         "extra/coding/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "checking": {
@@ -110,7 +110,7 @@
         "extra/checking/10.png",
         "extra/checking/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "rejected": {
@@ -128,7 +128,7 @@
         "extra/rejected/10.png",
         "extra/rejected/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "success": {
@@ -146,7 +146,7 @@
         "extra/success/10.png",
         "extra/success/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "pinched": {
@@ -164,7 +164,7 @@
         "extra/pinched/10.png",
         "extra/pinched/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": false
     },
     "carried": {
@@ -182,7 +182,7 @@
         "extra/carried/10.png",
         "extra/carried/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "edge-peek-left": {
@@ -200,7 +200,7 @@
         "extra/edge-peek-left/10.png",
         "extra/edge-peek-left/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": false
     },
     "edge-peek-right": {
@@ -218,260 +218,8 @@
         "extra/edge-peek-right/10.png",
         "extra/edge-peek-right/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": false
-    },
-    "edge-idle-read-left": {
-      "framePaths": [
-        "extra/edge-idle-read-left/00.png",
-        "extra/edge-idle-read-left/01.png",
-        "extra/edge-idle-read-left/02.png",
-        "extra/edge-idle-read-left/03.png",
-        "extra/edge-idle-read-left/04.png",
-        "extra/edge-idle-read-left/05.png",
-        "extra/edge-idle-read-left/06.png",
-        "extra/edge-idle-read-left/07.png",
-        "extra/edge-idle-read-left/08.png",
-        "extra/edge-idle-read-left/09.png",
-        "extra/edge-idle-read-left/10.png",
-        "extra/edge-idle-read-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-idle-read-right": {
-      "framePaths": [
-        "extra/edge-idle-read-right/00.png",
-        "extra/edge-idle-read-right/01.png",
-        "extra/edge-idle-read-right/02.png",
-        "extra/edge-idle-read-right/03.png",
-        "extra/edge-idle-read-right/04.png",
-        "extra/edge-idle-read-right/05.png",
-        "extra/edge-idle-read-right/06.png",
-        "extra/edge-idle-read-right/07.png",
-        "extra/edge-idle-read-right/08.png",
-        "extra/edge-idle-read-right/09.png",
-        "extra/edge-idle-read-right/10.png",
-        "extra/edge-idle-read-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-idle-normal-left": {
-      "framePaths": [
-        "extra/edge-idle-normal-left/00.png",
-        "extra/edge-idle-normal-left/01.png",
-        "extra/edge-idle-normal-left/02.png",
-        "extra/edge-idle-normal-left/03.png",
-        "extra/edge-idle-normal-left/04.png",
-        "extra/edge-idle-normal-left/05.png",
-        "extra/edge-idle-normal-left/06.png",
-        "extra/edge-idle-normal-left/07.png",
-        "extra/edge-idle-normal-left/08.png",
-        "extra/edge-idle-normal-left/09.png",
-        "extra/edge-idle-normal-left/10.png",
-        "extra/edge-idle-normal-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-idle-normal-right": {
-      "framePaths": [
-        "extra/edge-idle-normal-right/00.png",
-        "extra/edge-idle-normal-right/01.png",
-        "extra/edge-idle-normal-right/02.png",
-        "extra/edge-idle-normal-right/03.png",
-        "extra/edge-idle-normal-right/04.png",
-        "extra/edge-idle-normal-right/05.png",
-        "extra/edge-idle-normal-right/06.png",
-        "extra/edge-idle-normal-right/07.png",
-        "extra/edge-idle-normal-right/08.png",
-        "extra/edge-idle-normal-right/09.png",
-        "extra/edge-idle-normal-right/10.png",
-        "extra/edge-idle-normal-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-idle-sleep-left": {
-      "framePaths": [
-        "extra/edge-idle-sleep-left/00.png",
-        "extra/edge-idle-sleep-left/01.png",
-        "extra/edge-idle-sleep-left/02.png",
-        "extra/edge-idle-sleep-left/03.png",
-        "extra/edge-idle-sleep-left/04.png",
-        "extra/edge-idle-sleep-left/05.png",
-        "extra/edge-idle-sleep-left/06.png",
-        "extra/edge-idle-sleep-left/07.png",
-        "extra/edge-idle-sleep-left/08.png",
-        "extra/edge-idle-sleep-left/09.png",
-        "extra/edge-idle-sleep-left/10.png",
-        "extra/edge-idle-sleep-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-idle-sleep-right": {
-      "framePaths": [
-        "extra/edge-idle-sleep-right/00.png",
-        "extra/edge-idle-sleep-right/01.png",
-        "extra/edge-idle-sleep-right/02.png",
-        "extra/edge-idle-sleep-right/03.png",
-        "extra/edge-idle-sleep-right/04.png",
-        "extra/edge-idle-sleep-right/05.png",
-        "extra/edge-idle-sleep-right/06.png",
-        "extra/edge-idle-sleep-right/07.png",
-        "extra/edge-idle-sleep-right/08.png",
-        "extra/edge-idle-sleep-right/09.png",
-        "extra/edge-idle-sleep-right/10.png",
-        "extra/edge-idle-sleep-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-coding-left": {
-      "framePaths": [
-        "extra/edge-coding-left/00.png",
-        "extra/edge-coding-left/01.png",
-        "extra/edge-coding-left/02.png",
-        "extra/edge-coding-left/03.png",
-        "extra/edge-coding-left/04.png",
-        "extra/edge-coding-left/05.png",
-        "extra/edge-coding-left/06.png",
-        "extra/edge-coding-left/07.png",
-        "extra/edge-coding-left/08.png",
-        "extra/edge-coding-left/09.png",
-        "extra/edge-coding-left/10.png",
-        "extra/edge-coding-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-coding-right": {
-      "framePaths": [
-        "extra/edge-coding-right/00.png",
-        "extra/edge-coding-right/01.png",
-        "extra/edge-coding-right/02.png",
-        "extra/edge-coding-right/03.png",
-        "extra/edge-coding-right/04.png",
-        "extra/edge-coding-right/05.png",
-        "extra/edge-coding-right/06.png",
-        "extra/edge-coding-right/07.png",
-        "extra/edge-coding-right/08.png",
-        "extra/edge-coding-right/09.png",
-        "extra/edge-coding-right/10.png",
-        "extra/edge-coding-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-checking-left": {
-      "framePaths": [
-        "extra/edge-checking-left/00.png",
-        "extra/edge-checking-left/01.png",
-        "extra/edge-checking-left/02.png",
-        "extra/edge-checking-left/03.png",
-        "extra/edge-checking-left/04.png",
-        "extra/edge-checking-left/05.png",
-        "extra/edge-checking-left/06.png",
-        "extra/edge-checking-left/07.png",
-        "extra/edge-checking-left/08.png",
-        "extra/edge-checking-left/09.png",
-        "extra/edge-checking-left/10.png",
-        "extra/edge-checking-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-checking-right": {
-      "framePaths": [
-        "extra/edge-checking-right/00.png",
-        "extra/edge-checking-right/01.png",
-        "extra/edge-checking-right/02.png",
-        "extra/edge-checking-right/03.png",
-        "extra/edge-checking-right/04.png",
-        "extra/edge-checking-right/05.png",
-        "extra/edge-checking-right/06.png",
-        "extra/edge-checking-right/07.png",
-        "extra/edge-checking-right/08.png",
-        "extra/edge-checking-right/09.png",
-        "extra/edge-checking-right/10.png",
-        "extra/edge-checking-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-awaiting-left": {
-      "framePaths": [
-        "extra/edge-awaiting-left/00.png",
-        "extra/edge-awaiting-left/01.png",
-        "extra/edge-awaiting-left/02.png",
-        "extra/edge-awaiting-left/03.png",
-        "extra/edge-awaiting-left/04.png",
-        "extra/edge-awaiting-left/05.png",
-        "extra/edge-awaiting-left/06.png",
-        "extra/edge-awaiting-left/07.png",
-        "extra/edge-awaiting-left/08.png",
-        "extra/edge-awaiting-left/09.png",
-        "extra/edge-awaiting-left/10.png",
-        "extra/edge-awaiting-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-awaiting-right": {
-      "framePaths": [
-        "extra/edge-awaiting-right/00.png",
-        "extra/edge-awaiting-right/01.png",
-        "extra/edge-awaiting-right/02.png",
-        "extra/edge-awaiting-right/03.png",
-        "extra/edge-awaiting-right/04.png",
-        "extra/edge-awaiting-right/05.png",
-        "extra/edge-awaiting-right/06.png",
-        "extra/edge-awaiting-right/07.png",
-        "extra/edge-awaiting-right/08.png",
-        "extra/edge-awaiting-right/09.png",
-        "extra/edge-awaiting-right/10.png",
-        "extra/edge-awaiting-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-rejected-left": {
-      "framePaths": [
-        "extra/edge-rejected-left/00.png",
-        "extra/edge-rejected-left/01.png",
-        "extra/edge-rejected-left/02.png",
-        "extra/edge-rejected-left/03.png",
-        "extra/edge-rejected-left/04.png",
-        "extra/edge-rejected-left/05.png",
-        "extra/edge-rejected-left/06.png",
-        "extra/edge-rejected-left/07.png",
-        "extra/edge-rejected-left/08.png",
-        "extra/edge-rejected-left/09.png",
-        "extra/edge-rejected-left/10.png",
-        "extra/edge-rejected-left/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
-    },
-    "edge-rejected-right": {
-      "framePaths": [
-        "extra/edge-rejected-right/00.png",
-        "extra/edge-rejected-right/01.png",
-        "extra/edge-rejected-right/02.png",
-        "extra/edge-rejected-right/03.png",
-        "extra/edge-rejected-right/04.png",
-        "extra/edge-rejected-right/05.png",
-        "extra/edge-rejected-right/06.png",
-        "extra/edge-rejected-right/07.png",
-        "extra/edge-rejected-right/08.png",
-        "extra/edge-rejected-right/09.png",
-        "extra/edge-rejected-right/10.png",
-        "extra/edge-rejected-right/11.png"
-      ],
-      "frameDuration": 0.16666666666666666,
-      "loop": true
     },
     "edge-success-left": {
       "framePaths": [
@@ -488,7 +236,7 @@
         "extra/edge-success-left/10.png",
         "extra/edge-success-left/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "edge-success-right": {
@@ -506,7 +254,259 @@
         "extra/edge-success-right/10.png",
         "extra/edge-success-right/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-read-left": {
+      "framePaths": [
+        "extra/edge-idle-read-left/00.png",
+        "extra/edge-idle-read-left/01.png",
+        "extra/edge-idle-read-left/02.png",
+        "extra/edge-idle-read-left/03.png",
+        "extra/edge-idle-read-left/04.png",
+        "extra/edge-idle-read-left/05.png",
+        "extra/edge-idle-read-left/06.png",
+        "extra/edge-idle-read-left/07.png",
+        "extra/edge-idle-read-left/08.png",
+        "extra/edge-idle-read-left/09.png",
+        "extra/edge-idle-read-left/10.png",
+        "extra/edge-idle-read-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-read-right": {
+      "framePaths": [
+        "extra/edge-idle-read-right/00.png",
+        "extra/edge-idle-read-right/01.png",
+        "extra/edge-idle-read-right/02.png",
+        "extra/edge-idle-read-right/03.png",
+        "extra/edge-idle-read-right/04.png",
+        "extra/edge-idle-read-right/05.png",
+        "extra/edge-idle-read-right/06.png",
+        "extra/edge-idle-read-right/07.png",
+        "extra/edge-idle-read-right/08.png",
+        "extra/edge-idle-read-right/09.png",
+        "extra/edge-idle-read-right/10.png",
+        "extra/edge-idle-read-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-normal-left": {
+      "framePaths": [
+        "extra/edge-idle-normal-left/00.png",
+        "extra/edge-idle-normal-left/01.png",
+        "extra/edge-idle-normal-left/02.png",
+        "extra/edge-idle-normal-left/03.png",
+        "extra/edge-idle-normal-left/04.png",
+        "extra/edge-idle-normal-left/05.png",
+        "extra/edge-idle-normal-left/06.png",
+        "extra/edge-idle-normal-left/07.png",
+        "extra/edge-idle-normal-left/08.png",
+        "extra/edge-idle-normal-left/09.png",
+        "extra/edge-idle-normal-left/10.png",
+        "extra/edge-idle-normal-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-normal-right": {
+      "framePaths": [
+        "extra/edge-idle-normal-right/00.png",
+        "extra/edge-idle-normal-right/01.png",
+        "extra/edge-idle-normal-right/02.png",
+        "extra/edge-idle-normal-right/03.png",
+        "extra/edge-idle-normal-right/04.png",
+        "extra/edge-idle-normal-right/05.png",
+        "extra/edge-idle-normal-right/06.png",
+        "extra/edge-idle-normal-right/07.png",
+        "extra/edge-idle-normal-right/08.png",
+        "extra/edge-idle-normal-right/09.png",
+        "extra/edge-idle-normal-right/10.png",
+        "extra/edge-idle-normal-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-sleep-left": {
+      "framePaths": [
+        "extra/edge-idle-sleep-left/00.png",
+        "extra/edge-idle-sleep-left/01.png",
+        "extra/edge-idle-sleep-left/02.png",
+        "extra/edge-idle-sleep-left/03.png",
+        "extra/edge-idle-sleep-left/04.png",
+        "extra/edge-idle-sleep-left/05.png",
+        "extra/edge-idle-sleep-left/06.png",
+        "extra/edge-idle-sleep-left/07.png",
+        "extra/edge-idle-sleep-left/08.png",
+        "extra/edge-idle-sleep-left/09.png",
+        "extra/edge-idle-sleep-left/10.png",
+        "extra/edge-idle-sleep-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-idle-sleep-right": {
+      "framePaths": [
+        "extra/edge-idle-sleep-right/00.png",
+        "extra/edge-idle-sleep-right/01.png",
+        "extra/edge-idle-sleep-right/02.png",
+        "extra/edge-idle-sleep-right/03.png",
+        "extra/edge-idle-sleep-right/04.png",
+        "extra/edge-idle-sleep-right/05.png",
+        "extra/edge-idle-sleep-right/06.png",
+        "extra/edge-idle-sleep-right/07.png",
+        "extra/edge-idle-sleep-right/08.png",
+        "extra/edge-idle-sleep-right/09.png",
+        "extra/edge-idle-sleep-right/10.png",
+        "extra/edge-idle-sleep-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-coding-left": {
+      "framePaths": [
+        "extra/edge-coding-left/00.png",
+        "extra/edge-coding-left/01.png",
+        "extra/edge-coding-left/02.png",
+        "extra/edge-coding-left/03.png",
+        "extra/edge-coding-left/04.png",
+        "extra/edge-coding-left/05.png",
+        "extra/edge-coding-left/06.png",
+        "extra/edge-coding-left/07.png",
+        "extra/edge-coding-left/08.png",
+        "extra/edge-coding-left/09.png",
+        "extra/edge-coding-left/10.png",
+        "extra/edge-coding-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-coding-right": {
+      "framePaths": [
+        "extra/edge-coding-right/00.png",
+        "extra/edge-coding-right/01.png",
+        "extra/edge-coding-right/02.png",
+        "extra/edge-coding-right/03.png",
+        "extra/edge-coding-right/04.png",
+        "extra/edge-coding-right/05.png",
+        "extra/edge-coding-right/06.png",
+        "extra/edge-coding-right/07.png",
+        "extra/edge-coding-right/08.png",
+        "extra/edge-coding-right/09.png",
+        "extra/edge-coding-right/10.png",
+        "extra/edge-coding-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-checking-left": {
+      "framePaths": [
+        "extra/edge-checking-left/00.png",
+        "extra/edge-checking-left/01.png",
+        "extra/edge-checking-left/02.png",
+        "extra/edge-checking-left/03.png",
+        "extra/edge-checking-left/04.png",
+        "extra/edge-checking-left/05.png",
+        "extra/edge-checking-left/06.png",
+        "extra/edge-checking-left/07.png",
+        "extra/edge-checking-left/08.png",
+        "extra/edge-checking-left/09.png",
+        "extra/edge-checking-left/10.png",
+        "extra/edge-checking-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-checking-right": {
+      "framePaths": [
+        "extra/edge-checking-right/00.png",
+        "extra/edge-checking-right/01.png",
+        "extra/edge-checking-right/02.png",
+        "extra/edge-checking-right/03.png",
+        "extra/edge-checking-right/04.png",
+        "extra/edge-checking-right/05.png",
+        "extra/edge-checking-right/06.png",
+        "extra/edge-checking-right/07.png",
+        "extra/edge-checking-right/08.png",
+        "extra/edge-checking-right/09.png",
+        "extra/edge-checking-right/10.png",
+        "extra/edge-checking-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-awaiting-left": {
+      "framePaths": [
+        "extra/edge-awaiting-left/00.png",
+        "extra/edge-awaiting-left/01.png",
+        "extra/edge-awaiting-left/02.png",
+        "extra/edge-awaiting-left/03.png",
+        "extra/edge-awaiting-left/04.png",
+        "extra/edge-awaiting-left/05.png",
+        "extra/edge-awaiting-left/06.png",
+        "extra/edge-awaiting-left/07.png",
+        "extra/edge-awaiting-left/08.png",
+        "extra/edge-awaiting-left/09.png",
+        "extra/edge-awaiting-left/10.png",
+        "extra/edge-awaiting-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-awaiting-right": {
+      "framePaths": [
+        "extra/edge-awaiting-right/00.png",
+        "extra/edge-awaiting-right/01.png",
+        "extra/edge-awaiting-right/02.png",
+        "extra/edge-awaiting-right/03.png",
+        "extra/edge-awaiting-right/04.png",
+        "extra/edge-awaiting-right/05.png",
+        "extra/edge-awaiting-right/06.png",
+        "extra/edge-awaiting-right/07.png",
+        "extra/edge-awaiting-right/08.png",
+        "extra/edge-awaiting-right/09.png",
+        "extra/edge-awaiting-right/10.png",
+        "extra/edge-awaiting-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-rejected-left": {
+      "framePaths": [
+        "extra/edge-rejected-left/00.png",
+        "extra/edge-rejected-left/01.png",
+        "extra/edge-rejected-left/02.png",
+        "extra/edge-rejected-left/03.png",
+        "extra/edge-rejected-left/04.png",
+        "extra/edge-rejected-left/05.png",
+        "extra/edge-rejected-left/06.png",
+        "extra/edge-rejected-left/07.png",
+        "extra/edge-rejected-left/08.png",
+        "extra/edge-rejected-left/09.png",
+        "extra/edge-rejected-left/10.png",
+        "extra/edge-rejected-left/11.png"
+      ],
+      "frameDuration": 0.1666666667,
+      "loop": true
+    },
+    "edge-rejected-right": {
+      "framePaths": [
+        "extra/edge-rejected-right/00.png",
+        "extra/edge-rejected-right/01.png",
+        "extra/edge-rejected-right/02.png",
+        "extra/edge-rejected-right/03.png",
+        "extra/edge-rejected-right/04.png",
+        "extra/edge-rejected-right/05.png",
+        "extra/edge-rejected-right/06.png",
+        "extra/edge-rejected-right/07.png",
+        "extra/edge-rejected-right/08.png",
+        "extra/edge-rejected-right/09.png",
+        "extra/edge-rejected-right/10.png",
+        "extra/edge-rejected-right/11.png"
+      ],
+      "frameDuration": 0.1666666667,
       "loop": true
     },
     "edge-pinched-left": {
@@ -524,7 +524,7 @@
         "extra/edge-pinched-left/10.png",
         "extra/edge-pinched-left/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": false
     },
     "edge-pinched-right": {
@@ -542,7 +542,7 @@
         "extra/edge-pinched-right/10.png",
         "extra/edge-pinched-right/11.png"
       ],
-      "frameDuration": 0.16666666666666666,
+      "frameDuration": 0.1666666667,
       "loop": false
     }
   }

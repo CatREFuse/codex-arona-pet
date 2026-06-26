@@ -2,7 +2,7 @@
 
 ## 资源标准
 
-当前角色为 `plana` 和 `arona`。扩展动作帧统一使用 `256x256` 透明 PNG，运行时通过 `openplana-character.json` 的 `extraStates` 播放。
+当前角色为 `plana`、`plana-cat-maid`、`arona`、`arona-swimsuit` 和 `kotonoha-neo`。`plana` 和 `arona` 是原始角色，`plana-cat-maid` 与 `arona-swimsuit` 是服装变体。扩展动作帧统一使用 `256x256` 透明 PNG，运行时通过 `openplana-character.json` 的 `extraStates` 播放。
 
 贴边睡觉模组是画风基准：3 头身 QQ 人比例，白发、黑色服装、红白光环、浅灰发丝阴影、干净透明边缘。贴边模组需要保留屏幕边界黑线：左贴边黑线贴齐画布左边，右贴边黑线贴齐画布右边；同一角色的外露比例、头顶光环和手部位置保持一致。
 

@@ -22,7 +22,7 @@ struct OpenPlanaApp: App {
 
         if let index = arguments.firstIndex(of: "--verify-animations") {
             let characterIds = Array(arguments.dropFirst(index + 1)).filter { !$0.hasPrefix("--") }
-            let exitCode = Self.verifyAnimations(characterIds: characterIds.isEmpty ? ["plana", "arona", "kotonoha-neo"] : characterIds)
+            let exitCode = Self.verifyAnimations(characterIds: characterIds.isEmpty ? ["plana", "plana-cat-maid", "arona", "arona-swimsuit", "kotonoha-neo"] : characterIds)
             fflush(stdout)
             fflush(stderr)
             exit(exitCode)

@@ -38,7 +38,7 @@ Avoid: white background, transparent checkerboard, gradients, texture, shadows, 
 The base source was processed with the repository script:
 
 ```bash
-python3.10 mac_os/script/build_neo_pet_base_assets.py --id plana --display-name '普拉娜' --description '穿女仆装与猫耳的普拉娜 Q 版桌宠。' --source /Users/tanshow/.codex/generated_images/019effbc-11bb-7d20-8936-13c6985d5251/ig_04a3a6c5d77737f9016a3d600ad13c81999150948f1609aeb1.png --force
+python3.10 mac_os/script/build_neo_pet_base_assets.py --id plana-cat-maid --display-name '普拉娜（猫耳女仆）' --description '穿女仆装与猫耳的普拉娜 Q 版桌宠。' --source /Users/tanshow/.codex/generated_images/019effbc-11bb-7d20-8936-13c6985d5251/ig_04a3a6c5d77737f9016a3d600ad13c81999150948f1609aeb1.png --force
 ```
 
 Plana-only deterministic assembly then regenerated:

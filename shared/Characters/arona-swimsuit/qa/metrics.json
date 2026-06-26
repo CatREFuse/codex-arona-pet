@@ -1,0 +1,25 @@
+{
+  "id": "arona-swimsuit",
+  "source": "/Users/tanshow/.codex/generated_images/019effb3-1ad6-7e81-8b5d-94a847e3c59e/ig_0961220c7c3d8d03016a3dd3693be88199a5067b199309eead.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "baseBounds": [
+    67,
+    16,
+    121,
+    228
+  ],
+  "atlasSize": [
+    3072,
+    2304
+  ],
+  "cornerAlpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "note": "base-stage atlas uses generated identity art with lightweight deterministic row motion; action-specific imagegen rows are still required for final full animation fidelity."
+}

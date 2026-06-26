@@ -63,11 +63,11 @@ EXTRA_ACTIONS = {
 }
 
 CHARACTERS = {
-    "plana": {
-        "display": "普拉娜",
+    "plana-cat-maid": {
+        "display": "普拉娜（猫耳女仆）",
         "reference": "/Users/tanshow/.codex/attachments/452ffb10-fc84-441d-8309-dccec48b4b47/image-1.webp",
         "identity": (
-            "Use only the user-provided Plana maid outfit illustration and the generated plana base from this run. "
+            "Use only the user-provided Plana maid outfit illustration and the generated plana-cat-maid base from this run. "
             "Do not use any existing Plana desktop-pet image, old sprite, old generated image, or old prompt as identity reference. "
             "Preserve Plana's white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
             "reserved gray-lavender visible eye, small thin red oval halo, and the black-and-white maid outfit from the reference: white apron, "
@@ -76,7 +76,7 @@ CHARACTERS = {
             "her head ornament, halo direction, eye visibility, hair mass, or face layout."
         ),
         "no_prop_identity": (
-            "Use only the user-provided Plana maid outfit illustration and the generated plana base from this run. "
+            "Use only the user-provided Plana maid outfit illustration and the generated plana-cat-maid base from this run. "
             "Do not use any existing Plana desktop-pet image, old sprite, old generated image, or old prompt as identity reference. "
             "Preserve Plana's white hair, black headband, tall white ribbon-like hair ornament, long white hair with faint pale pink strand, "
             "reserved gray-lavender visible eye, small thin red oval halo, and the black-and-white maid outfit from the reference: white apron, "
@@ -92,19 +92,19 @@ CHARACTERS = {
             "no glow, no filled center. The halo opening must show the exact chroma-key color."
         ),
     },
-    "arona": {
-        "display": "阿罗娜",
+    "arona-swimsuit": {
+        "display": "阿罗娜（泳装）",
         "reference": "/Users/tanshow/.codex/attachments/452ffb10-fc84-441d-8309-dccec48b4b47/image-2.png",
         "identity": (
-            "Use the user-provided Arona white swimsuit reference and the generated arona base from this run. Preserve Arona's short pale blue-white bob hair, "
+            "Use the user-provided Arona white swimsuit reference and the generated arona-swimsuit base from this run. Preserve Arona's short pale blue-white bob hair, "
             "right-side braid cue, large white bow-like head ornament, cyan-blue floating halo, bright blue eyes, cheerful expression, white swimsuit, "
-            "white paw-like gloves and boot covers from the reference, pale blue tail-like accessory if visible in the reference, and compact chibi proportions. "
+            "white paw-like gloves and boot covers from the reference, and compact chibi proportions. Preserve one pale blue fluffy cat tail from the reference. The tail must read as a soft cat tail attached behind the body, not a fish tail, mermaid tail, fin, aquatic tail, cable, ribbon tail, or long eel-like appendage. "
             "Keep the original Arona identity orientation; do not mirror-flip the head ornament, halo direction, braid cue, hair mass, or face layout."
         ),
         "no_prop_identity": (
-            "Use the user-provided Arona white swimsuit reference and the generated arona base from this run. Preserve Arona's short pale blue-white bob hair, "
+            "Use the user-provided Arona white swimsuit reference and the generated arona-swimsuit base from this run. Preserve Arona's short pale blue-white bob hair, "
             "right-side braid cue, large white bow-like head ornament, cyan-blue floating halo, bright blue eyes, cheerful expression, white swimsuit, "
-            "white paw-like gloves and boot covers from the reference, pale blue tail-like accessory if visible in the reference, and compact chibi proportions. "
+            "white paw-like gloves and boot covers from the reference, and compact chibi proportions. Preserve one pale blue fluffy cat tail from the reference. The tail must read as a soft cat tail attached behind the body, not a fish tail, mermaid tail, fin, aquatic tail, cable, ribbon tail, or long eel-like appendage. "
             "Keep the original Arona identity orientation; do not mirror-flip the head ornament, halo direction, braid cue, hair mass, or face layout. "
             "Do not draw an umbrella, gun, staff, rifle, sheath, or any long horizontal prop."
         ),
@@ -239,7 +239,7 @@ Side rule: {side_rule(state)}
 {prop_rule(character_id, kind, state)}
 Material rule: {state_material_rule(state)}
 Safety: full-body and normal frames need at least 8px safe padding on all sides. Edge frames keep only the black edge line on the dock side; top, bottom, and opposite side need at least 8px safe padding.
-Avoid: fewer than {frame_count} frames, more than {frame_count} frames, merged frames, duplicate missing slots, back view, rear view, turned-away carried pose, blink, wink, closed-eye frame in non-sleep states, sudden open mouth, O-mouth, shout, gasp, white background, checkerboard, text, watermark, readable UI text, frame numbers, guide marks, scenery, shadows, glow, motion blur, speed lines, floating effects, cropped halo, cropped hair, cropped hands, cropped props, white or opaque halo center, filled halo interior, touching adjacent frame slots, changing face width, changing head silhouette, large size jumps between adjacent frames.
+Avoid: fish tail, mermaid tail, fin tail, aquatic tail, eel-like tail, cable tail, ribbon tail, fewer than {frame_count} frames, more than {frame_count} frames, merged frames, duplicate missing slots, back view, rear view, turned-away carried pose, blink, wink, closed-eye frame in non-sleep states, sudden open mouth, O-mouth, shout, gasp, white background, checkerboard, text, watermark, readable UI text, frame numbers, guide marks, scenery, shadows, glow, motion blur, speed lines, floating effects, cropped halo, cropped hair, cropped hands, cropped props, white or opaque halo center, filled halo interior, touching adjacent frame slots, changing face width, changing head silhouette, large size jumps between adjacent frames.
 """
 
 

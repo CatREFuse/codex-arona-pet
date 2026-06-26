@@ -11,15 +11,15 @@ The weak point was edge-state recovery: some edge modules were derived from norm
 
 ## Improved Flow
 
-1. Treat `plana` and `arona` as final runtime ids. Legacy `*-neo` ids are only migration inputs.
+1. Treat `plana`, `plana-cat-maid`, `arona`, and `arona-swimsuit` as final runtime ids. Legacy `*-neo` ids are only migration inputs; `plana` and `arona` remain the original pets, while `plana-cat-maid` and `arona-swimsuit` are costume variants.
 2. Generate each edge module as its own source art. Do not create the right side by mirroring the left side, and do not use normal-state crops as final edge art.
-3. For Plana, use the maid reference and add white cat ears with pink inner fur. For Arona, use the white-swimsuit reference. Preserve each character's original orientation cues.
+3. For `plana-cat-maid`, use the maid reference and add white cat ears with pink inner fur. For `arona-swimsuit`, use the white-swimsuit reference and use the white-swimsuit reference and keep a pale blue cat tail, but never draw a fish tail or fin-like tail. Preserve each character's original orientation cues.
 4. Use local scripts only for pipeline processing: chroma removal, slicing, sizing, atlas packing, manifest updates, and QA images. Do not patch character pixels, flip source art, erase accessories, or hand-edit image content.
 5. Reject source sheets when the dock-side line, halo opening, frame spacing, face width, or idle motion stability is wrong. Regenerate the source sheet instead.
 6. Run all checks before sync:
    - `mac_os/script/validate_pet_assets.py`
-   - `mac_os/script/validate_neo_artifacts.py --character plana --character arona --summary --strict-visual-candidates --include-atlas`
-   - `mac_os/script/audit_frame_overlays.py --character plana --character arona`
+   - `mac_os/script/validate_neo_artifacts.py --character plana --character plana-cat-maid --character arona --character arona-swimsuit --summary --strict-visual-candidates --include-atlas`
+   - `mac_os/script/audit_frame_overlays.py --character plana --character plana-cat-maid --character arona --character arona-swimsuit`
    - `mac_os/script/build_and_run.sh --verify`
 
 ## Edge Checks Added

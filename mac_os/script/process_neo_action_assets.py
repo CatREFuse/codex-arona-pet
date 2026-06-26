@@ -24,8 +24,10 @@ ATLAS_ROWS = 9
 ATLAS_SIZE = (CELL_SIZE * ATLAS_COLUMNS, CELL_SIZE * ATLAS_ROWS)
 KEY_COLORS = {
     "plana": (0, 255, 0),
+    "plana-cat-maid": (0, 255, 0),
     "plana-neo": (0, 255, 0),
     "arona": (255, 0, 255),
+    "arona-swimsuit": (255, 0, 255),
     "arona-neo": (255, 0, 255),
     "kotonoha-neo": (255, 0, 255),
 }

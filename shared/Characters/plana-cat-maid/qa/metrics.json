@@ -1,0 +1,68 @@
+{
+  "id": "plana-cat-maid",
+  "source": "/Users/tanshow/Developer/open-plana/shared/Characters/plana/qa/source-green.png",
+  "generatedSource": "/Users/tanshow/.codex/generated_images/019effbc-11bb-7d20-8936-13c6985d5251/ig_04a3a6c5d77737f9016a3d600ad13c81999150948f1609aeb1.png",
+  "atlasSize": [
+    3072,
+    2304
+  ],
+  "baseBounds": [
+    65,
+    16,
+    190,
+    244
+  ],
+  "idleNormal": {
+    "frameCount": 12,
+    "bboxWidthRange": [
+      125,
+      125
+    ],
+    "bboxHeightRange": [
+      228,
+      228
+    ],
+    "centerXRange": [
+      127.5,
+      127.5
+    ],
+    "centerYRange": [
+      128.0,
+      131.0
+    ],
+    "maxCenterDelta": 1.0
+  },
+  "atlasIdle": {
+    "frameCount": 12,
+    "bboxWidthRange": [
+      125,
+      125
+    ],
+    "bboxHeightRange": [
+      228,
+      228
+    ],
+    "centerXRange": [
+      127.5,
+      127.5
+    ],
+    "centerYRange": [
+      128.0,
+      131.0
+    ],
+    "maxCenterDelta": 1.0
+  },
+  "edgeMirrorDifferenceAverage": {
+    "edge-awaiting": 0.04992649851281658,
+    "edge-checking": 0.05332383299185559,
+    "edge-coding": 0.03474618749680861,
+    "edge-idle-normal": 0.04992649851281658,
+    "edge-idle-read": 0.04534176595849929,
+    "edge-idle-sleep": 0.04848643284217984,
+    "edge-peek": 0.04992649851281658,
+    "edge-pinched": 0.05014039083243974,
+    "edge-rejected": 0.039026886185789415,
+    "edge-success": 0.04156517078673918
+  },
+  "note": "Generated Plana maid-cat-ear identity source was processed with repo base script, then Plana-only deterministic assembly preserved original orientation for edge states without horizontal mirroring."
+}
