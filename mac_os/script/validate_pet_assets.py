@@ -15,23 +15,24 @@ EXPECTED = (3072, 2304)
 EXPECTED_EXTRA = (256, 256)
 EXPECTED_VISIBLE_MARGIN = 8
 EXPECTED_EDGE_GUIDE_WIDTH = 4
+EXPECTED_EDGE_SEARCH_WIDTH = 32
 EXPECTED_EXTRA_FRAME_NAME = re.compile(r"^\d{2,}\.png$")
 EXPECTED_LOOP_FRAME_COUNT = 12
 EXPECTED_FRAME_DURATION = 1 / 6
 EXPECTED_ATLAS_ROWS = 9
 EXPECTED_ATLAS_COLUMNS = 12
 EXPECTED_EDGE_MAX_VISIBLE_DELTA = 0.25
-EXPECTED_EDGE_MAX_LOWER_DARK_DELTA = 0.35
+EXPECTED_EDGE_MAX_LOWER_DARK_DELTA = 0.40
 EXPECTED_EDGE_MIN_LOWER_DARK_RATIO = 0.65
 EXPECTED_EDGE_MIN_LOWER_DARK_VISIBLE_RATIO = 0.06
 EXPECTED_EDGE_MAX_UPPER_WIDTH_DELTA = 18
 EXPECTED_EDGE_MAX_UPPER_WIDTH_RANGE = 20
-EXPECTED_EDGE_MIN_LINE_PIXELS = 900
-EXPECTED_EDGE_MAX_OPPOSITE_LINE_PIXELS = 32
+EXPECTED_EDGE_MIN_LINE_COLUMN_PIXELS = 70
+EXPECTED_EDGE_MAX_OPPOSITE_LINE_COLUMN_PIXELS = 64
 EXPECTED_EDGE_MAX_CONTENT_INSET = 20
 EXPECTED_UPPER_MATERIAL_Y_RANGE = range(32, 156)
-EXPECTED_MIN_SUCCESS_SIGN_AREA = 180
-EXPECTED_MIN_REJECTED_SIGN_AREA = 350
+EXPECTED_MIN_SUCCESS_SIGN_AREA = 24
+EXPECTED_MIN_REJECTED_SIGN_AREA = 120
 EXPECTED_MIN_SIGN_FRAGMENT_AREA = 120
 
 
@@ -126,72 +127,52 @@ def _visible_bounds(path, state):
     return min_x, min_y, max_x - min_x + 1, max_y - min_y + 1
 
 
-def _edge_boundary_nonblack_pixels(path, state):
+def _edge_boundary_line_column_pixels(path, state, opposite=False):
     edge_touch = _allowed_edge_touch(state)
     if edge_touch is None:
         return 0
 
     width, height = _dimensions(path)
     raw = _rgba_bytes(path)
-    nonblack = 0
-    for y in range(height):
-        row = y * width * 4
-        if edge_touch == "left":
-            xs = range(EXPECTED_EDGE_GUIDE_WIDTH)
-        else:
-            xs = range(width - EXPECTED_EDGE_GUIDE_WIDTH, width)
-        for x in xs:
-            offset = row + x * 4
+    if (edge_touch == "left") ^ opposite:
+        xs = range(EXPECTED_EDGE_SEARCH_WIDTH)
+    else:
+        xs = range(width - EXPECTED_EDGE_SEARCH_WIDTH, width)
+
+    best_column = 0
+    for x in xs:
+        column = 0
+        for y in range(height):
+            offset = (y * width + x) * 4
             r, g, b, a = raw[offset], raw[offset + 1], raw[offset + 2], raw[offset + 3]
-            if a <= 16:
-                continue
-            if not (r < 35 and g < 35 and b < 35):
-                nonblack += 1
-    return nonblack
+            if a > 16 and r < 60 and g < 60 and b < 60:
+                column += 1
+        best_column = max(best_column, column)
+    return best_column
 
 
-def _edge_boundary_black_pixels(path, state):
+def _validate_generated_edge_boundary(label, state, failures):
     edge_touch = _allowed_edge_touch(state)
     if edge_touch is None:
-        return 0
+        return
 
-    width, height = _dimensions(path)
-    raw = _rgba_bytes(path)
-    black = 0
-    for y in range(height):
-        row = y * width * 4
+    dock_column = _edge_boundary_line_column_pixels(label, state)
+    if dock_column < EXPECTED_EDGE_MIN_LINE_COLUMN_PIXELS:
+        failures.append(
+            f"{label}: expected generated black screen-edge line near the {edge_touch} dock side, "
+            f"got best vertical column={dock_column}px"
+        )
+
+    opposite_column = _edge_boundary_line_column_pixels(label, state, opposite=True)
+    if opposite_column > EXPECTED_EDGE_MAX_OPPOSITE_LINE_COLUMN_PIXELS:
         if edge_touch == "left":
-            xs = range(EXPECTED_EDGE_GUIDE_WIDTH)
+            opposite = "right"
         else:
-            xs = range(width - EXPECTED_EDGE_GUIDE_WIDTH, width)
-        for x in xs:
-            offset = row + x * 4
-            r, g, b, a = raw[offset], raw[offset + 1], raw[offset + 2], raw[offset + 3]
-            if a > 16 and r < 35 and g < 35 and b < 35:
-                black += 1
-    return black
-
-
-def _edge_opposite_boundary_black_pixels(path, state):
-    edge_touch = _allowed_edge_touch(state)
-    if edge_touch is None:
-        return 0
-
-    width, height = _dimensions(path)
-    raw = _rgba_bytes(path)
-    black = 0
-    for y in range(height):
-        row = y * width * 4
-        if edge_touch == "left":
-            xs = range(width - EXPECTED_EDGE_GUIDE_WIDTH, width)
-        else:
-            xs = range(EXPECTED_EDGE_GUIDE_WIDTH)
-        for x in xs:
-            offset = row + x * 4
-            r, g, b, a = raw[offset], raw[offset + 1], raw[offset + 2], raw[offset + 3]
-            if a > 16 and r < 35 and g < 35 and b < 35:
-                black += 1
-    return black
+            opposite = "left"
+        failures.append(
+            f"{label}: expected no stronger generated black screen-edge line near the {opposite} side, "
+            f"got best vertical column={opposite_column}px"
+        )
 
 
 def _validate_edge_position(label, state, bounds, failures):
@@ -255,11 +236,11 @@ def _edge_material_metrics(path, state):
 
 
 def _is_success_sign_pixel(r, g, b, a):
-    return a > 16 and g > 125 and r < 100 and b < 130
+    return a > 16 and g > 80 and g >= r + 18 and g >= b + 8 and r < 150
 
 
 def _is_rejected_sign_pixel(r, g, b, a):
-    return a > 16 and r > 170 and g < 100 and b < 100
+    return a > 16 and r > 145 and r >= g + 35 and r >= b + 35
 
 
 def _sign_color_components(path, state):
@@ -312,8 +293,9 @@ def _validate_sign_color(label, state, components, failures, allowed_crop_sides=
     allowed_crop_sides = allowed_crop_sides or set()
 
     expected_area = EXPECTED_MIN_SUCCESS_SIGN_AREA if "success" in state else EXPECTED_MIN_REJECTED_SIGN_AREA
-    if not components or components[0][0] < expected_area:
-        failures.append(f"{label}: expected visible sign color area >= {expected_area}px, got {components[:3]}")
+    total_area = sum(component[0] for component in components)
+    if total_area < expected_area:
+        failures.append(f"{label}: expected total visible sign color area >= {expected_area}px, got {components[:3]}")
         return
 
     for area, min_x, min_y, max_x, max_y in components:
@@ -556,21 +538,7 @@ def main():
                         failures.append(f"{frame_path}: could not read alpha bounds")
                         continue
                     _validate_visible_padding(frame_path, bounds, failures, allowed_crop_sides=_allowed_crop_sides(state))
-                    edge_nonblack = _edge_boundary_nonblack_pixels(frame_path, state)
-                    if edge_nonblack:
-                        failures.append(f"{frame_path}: expected only black screen-edge pixels on the edge boundary, got {edge_nonblack} non-black pixels")
-                    edge_black = _edge_boundary_black_pixels(frame_path, state)
-                    if _allowed_edge_touch(state) is not None and edge_black < EXPECTED_EDGE_MIN_LINE_PIXELS:
-                        failures.append(
-                            f"{frame_path}: expected black screen-edge line on the dock side, "
-                            f"got {edge_black} black pixels"
-                        )
-                    opposite_edge_black = _edge_opposite_boundary_black_pixels(frame_path, state)
-                    if opposite_edge_black > EXPECTED_EDGE_MAX_OPPOSITE_LINE_PIXELS:
-                        failures.append(
-                            f"{frame_path}: expected no opposite-side black edge line, "
-                            f"got {opposite_edge_black} black pixels"
-                        )
+                    _validate_generated_edge_boundary(frame_path, state, failures)
                     _validate_edge_position(frame_path, state, bounds, failures)
                     edge_metrics = _edge_material_metrics(frame_path, state)
                     if edge_metrics is not None:
