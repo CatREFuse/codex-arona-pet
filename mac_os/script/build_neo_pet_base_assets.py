@@ -177,6 +177,7 @@ def write_character(args: argparse.Namespace) -> None:
     atlas.save(out_dir / "spritesheet.png")
     atlas.save(out_dir / "spritesheet.webp", lossless=True, quality=100)
     make_contact_sheet(atlas, qa_dir / "base-contact-sheet.png")
+    make_contact_sheet(atlas, qa_dir / "atlas-contact-sheet.png")
 
     pet = {
         "id": args.id,

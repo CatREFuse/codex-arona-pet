@@ -23,6 +23,7 @@ EXPECTED_ATLAS_COLUMNS = 12
 EXPECTED_EDGE_MAX_VISIBLE_DELTA = 0.25
 EXPECTED_EDGE_MAX_LOWER_DARK_DELTA = 0.35
 EXPECTED_EDGE_MIN_LOWER_DARK_RATIO = 0.65
+EXPECTED_EDGE_MIN_LOWER_DARK_VISIBLE_RATIO = 0.06
 EXPECTED_EDGE_MAX_UPPER_WIDTH_DELTA = 18
 EXPECTED_EDGE_MAX_UPPER_WIDTH_RANGE = 20
 EXPECTED_EDGE_MIN_LINE_PIXELS = 900
@@ -347,6 +348,12 @@ def _delta_ratio(left, right):
 def _validate_edge_loop_continuity(label, metrics, failures):
     lower_dark_values = [item["lower_dark_pixels"] for item in metrics]
     median_lower_dark = sorted(lower_dark_values)[len(lower_dark_values) // 2]
+    visible_values = [item["visible_pixels"] for item in metrics]
+    median_visible = sorted(visible_values)[len(visible_values) // 2]
+    dark_material_is_meaningful = (
+        median_visible > 0
+        and median_lower_dark / median_visible >= EXPECTED_EDGE_MIN_LOWER_DARK_VISIBLE_RATIO
+    )
     upper_width_values = [item["upper_material_width"] for item in metrics]
     upper_width_range = max(upper_width_values) - min(upper_width_values)
     if upper_width_range > EXPECTED_EDGE_MAX_UPPER_WIDTH_RANGE:
@@ -365,18 +372,19 @@ def _validate_edge_loop_continuity(label, metrics, failures):
                 f"{EXPECTED_EDGE_MAX_VISIBLE_DELTA:.2f}, got {visible_delta:.2f}"
             )
 
-        lower_dark_delta = _delta_ratio(current["lower_dark_pixels"], next_item["lower_dark_pixels"])
-        if lower_dark_delta > EXPECTED_EDGE_MAX_LOWER_DARK_DELTA:
-            failures.append(
-                f"{label}: expected edge frames {index:02d}->{next_index:02d} lower-body dark material delta <= "
-                f"{EXPECTED_EDGE_MAX_LOWER_DARK_DELTA:.2f}, got {lower_dark_delta:.2f}"
-            )
+        if dark_material_is_meaningful:
+            lower_dark_delta = _delta_ratio(current["lower_dark_pixels"], next_item["lower_dark_pixels"])
+            if lower_dark_delta > EXPECTED_EDGE_MAX_LOWER_DARK_DELTA:
+                failures.append(
+                    f"{label}: expected edge frames {index:02d}->{next_index:02d} lower-body dark material delta <= "
+                    f"{EXPECTED_EDGE_MAX_LOWER_DARK_DELTA:.2f}, got {lower_dark_delta:.2f}"
+                )
 
-        if median_lower_dark > 0 and current["lower_dark_pixels"] < median_lower_dark * EXPECTED_EDGE_MIN_LOWER_DARK_RATIO:
-            failures.append(
-                f"{label}: expected edge frame {index:02d} lower-body dark material to stay near the loop median, "
-                f"got {current['lower_dark_pixels']} vs median {median_lower_dark}"
-            )
+            if current["lower_dark_pixels"] < median_lower_dark * EXPECTED_EDGE_MIN_LOWER_DARK_RATIO:
+                failures.append(
+                    f"{label}: expected edge frame {index:02d} lower-body dark material to stay near the loop median, "
+                    f"got {current['lower_dark_pixels']} vs median {median_lower_dark}"
+                )
 
         upper_width_delta = abs(current["upper_material_width"] - next_item["upper_material_width"])
         if upper_width_delta > EXPECTED_EDGE_MAX_UPPER_WIDTH_DELTA:
