@@ -2,9 +2,9 @@
 
 ## Current State
 
-`shared/Characters/plana` is the active Plana resource directory. The old neo-named Plana directory is no longer present.
+`shared/Characters/plana` remains the original Plana pet. The maid cat-ear variant lives separately at `shared/Characters/plana-cat-maid`.
 
-The current source, atlas, extra frames, and edge frames use the maid outfit and cat-ear identity from the requested reference:
+The `plana-cat-maid` source, atlas, extra frames, and edge frames use the maid outfit and cat-ear identity from the requested reference:
 
 - black-and-white maid dress
 - white apron and frills
@@ -15,7 +15,7 @@ The current source, atlas, extra frames, and edge frames use the maid outfit and
 
 The generated source image is copied to:
 
-`shared/Characters/plana/qa/source-green.png`
+`shared/Characters/plana-cat-maid/qa/source-green.png`
 
 The selected generated source path was:
 
@@ -35,13 +35,13 @@ Avoid: white background, transparent checkerboard, gradients, texture, shadows, 
 
 ## Processing
 
-The base source was processed with the repository script:
+Generated source grids were processed with the repository script:
 
 ```bash
-python3.10 mac_os/script/build_neo_pet_base_assets.py --id plana-cat-maid --display-name '普拉娜（猫耳女仆）' --description '穿女仆装与猫耳的普拉娜 Q 版桌宠。' --source /Users/tanshow/.codex/generated_images/019effbc-11bb-7d20-8936-13c6985d5251/ig_04a3a6c5d77737f9016a3d600ad13c81999150948f1609aeb1.png --force
+python3 mac_os/script/process_neo_action_assets.py --character plana-cat-maid
 ```
 
-Plana-only deterministic assembly then regenerated:
+The processing step produced:
 
 - `spritesheet.png`
 - `spritesheet.webp`
@@ -52,12 +52,14 @@ Plana-only deterministic assembly then regenerated:
 - idle overlay
 - boundary and idle JSON checks
 
+Local scripts are only used for chroma removal, slicing, sizing, atlas packing, QA images, and validation. Final animation modules must come from generated source grids, not from deterministic row motion, mirroring, local painting, or geometry repair.
+
 Left and right edge states preserve the same Plana orientation. Right edge states place Plana to the left of the right boundary; left edge states place Plana to the right of the left boundary.
 
 ## Verification
 
 ```bash
-python3 mac_os/script/validate_neo_artifacts.py --character plana --include-atlas --summary --json-out shared/Characters/plana/qa/neo-artifact-check.json --candidate-sheet-dir shared/Characters/plana/qa/candidate-sheets
+python3 mac_os/script/validate_neo_artifacts.py --character plana-cat-maid --include-atlas --summary --json-out shared/Characters/plana-cat-maid/qa/neo-artifact-check.json --candidate-sheet-dir shared/Characters/plana-cat-maid/qa/candidate-sheets
 ```
 
 Result:
@@ -90,9 +92,9 @@ min_mirror_diff=0.0347
 
 Evidence files:
 
-- `shared/Characters/plana/qa/atlas-contact-sheet.png`
-- `shared/Characters/plana/qa/all-extra-expression-overview.png`
-- `shared/Characters/plana/qa/edge-all-contact-overview.png`
-- `shared/Characters/plana/qa/idle-normal-overlay.png`
-- `shared/Characters/plana/qa/plana-boundary-idle-check.json`
-- `shared/Characters/plana/qa/edge-orientation-check.json`
+- `shared/Characters/plana-cat-maid/qa/atlas-contact-sheet.png`
+- `shared/Characters/plana-cat-maid/qa/all-extra-expression-overview.png`
+- `shared/Characters/plana-cat-maid/qa/edge-all-contact-overview.png`
+- `shared/Characters/plana-cat-maid/qa/idle-normal-overlay.png`
+- `shared/Characters/plana-cat-maid/qa/plana-boundary-idle-check.json`
+- `shared/Characters/plana-cat-maid/qa/edge-orientation-check.json`

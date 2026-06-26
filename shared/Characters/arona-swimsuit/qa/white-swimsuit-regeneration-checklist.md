@@ -2,15 +2,15 @@
 
 ## Current State
 
-The `shared/Characters/arona` directory is the renamed former `arona-neo` resource set. Its current atlas and extra frames still show the older blue-white uniform identity. A full white-swimsuit replacement still requires new generated `source-grid-chroma.png` images before the existing processing scripts can create final transparent frames.
+The `shared/Characters/arona` directory remains the original Arona pet. The white-swimsuit variant lives separately at `shared/Characters/arona-swimsuit`, with generated atlas rows and generated extra-state source grids already processed into final transparent frames.
 
 Reference image:
 
-`shared/Characters/arona/references/white-swimsuit-reference.png`
+`shared/Characters/arona-swimsuit/references/white-swimsuit-reference.png`
 
 Target identity:
 
-Arona as a compact Q-version desktop pet, based on the reference: pale blue-white bob hair, visible bright blue eye, cyan-blue floating halo with a real open center, white swimsuit, white paw gloves, white paw boots, soft blue tail, small pink hair accents, gentle energetic expression, clean anime sprite linework, readable at 256x256.
+Arona as a compact Q-version desktop pet, based on the reference: pale blue-white bob hair, visible bright blue eye, cyan-blue floating halo with a real open center, white swimsuit, white paw gloves, white paw boots, pale blue cat tail, small pink hair accents, gentle energetic expression, clean anime sprite linework, readable at 256x256.
 
 Do not flip identity details. Keep the halo tilt, hair part, side braid or side hair accents, face orientation, tail attachment, and accessory placement consistent with the reference unless the state explicitly needs a new pose.
 
@@ -66,11 +66,11 @@ Keep frame-to-frame changes small and stable. No sudden blink, closed-eye frame,
 Use case: stylized-concept
 Asset type: OpenPlana Arona desktop pet source art
 Primary request: Create Arona as a compact 3-head Q-version anime desktop pet based on the attached white swimsuit reference image.
-Subject: pale blue-white bob hair, visible bright blue eye, cyan-blue floating halo with an open center, white swimsuit, white paw gloves, white paw boots, soft blue tail, small pink hair accents, gentle energetic expression.
+Subject: pale blue-white bob hair, visible bright blue eye, cyan-blue floating halo with an open center, white swimsuit, white paw gloves, white paw boots, pale blue cat tail, small pink hair accents, gentle energetic expression.
 Style: clean anime sprite linework, soft crisp shading, readable at 256x256.
 Background: perfectly flat solid #FF00FF chroma key, no shadows, no gradients, no texture.
 Constraints: full body visible with generous padding, no text, no watermark, no scenery, no floor shadow, no glow, no motion effects.
-Avoid: flipped identity details, filled halo center, cropped halo, cropped tail, cropped paws, extra props, old blue-white uniform.
+Avoid: fish tail, mermaid tail, fin tail, aquatic tail, flipped identity details, filled halo center, cropped halo, cropped tail, cropped paws, extra props, old blue-white uniform.
 ```
 
 ## Row Prompt Template
@@ -84,28 +84,29 @@ Loop: <true|false>
 
 ## Processing Commands
 
-These commands assume generated grids are staged under `.codex/tmp/neo-pets/generated/arona/...`.
+These commands assume generated grids are staged under `.codex/tmp/neo-pets/generated/arona-swimsuit/...`.
 
 ```bash
-python3 mac_os/script/process_neo_action_assets.py --character arona --state <state>
+python3 mac_os/script/process_neo_action_assets.py --character arona-swimsuit --state <state>
 ```
 
 ## Verification Commands
 
 ```bash
-python3 mac_os/script/validate_neo_artifacts.py --character arona --include-atlas --strict-visual-candidates --candidate-sheet-dir shared/Characters/arona/qa/visual-candidates --json-out shared/Characters/arona/qa/neo-artifact-check.json --summary
+python3 mac_os/script/validate_neo_artifacts.py --character arona-swimsuit --include-atlas --strict-visual-candidates --candidate-sheet-dir shared/Characters/arona-swimsuit/qa/visual-candidates --json-out shared/Characters/arona-swimsuit/qa/neo-artifact-check.json --summary
 ```
 
 ```bash
-python3 mac_os/script/audit_frame_overlays.py --character arona --json-out "$PWD/shared/Characters/arona/qa/overlay-audit.json"
+python3 mac_os/script/audit_frame_overlays.py --character arona-swimsuit --json-out "$PWD/shared/Characters/arona-swimsuit/qa/overlay-audit.json"
 ```
 
 Manual visual checks:
 
-- `shared/Characters/arona/qa/atlas-contact-sheet.png`
-- `shared/Characters/arona/qa/edge-all-contact-overview.png`
-- `shared/Characters/arona/qa/idle-normal-contact-sheet.png`
-- `mac_os/docs/qa/current-target/overlay-audit/arona/overview.png` when generated
+- `shared/Characters/arona-swimsuit/qa/atlas-contact-sheet.png`
+- `shared/Characters/arona-swimsuit/qa/edge-all-contact-overview.png`
+- `shared/Characters/arona-swimsuit/qa/idle-normal-contact-sheet.png`
+- `shared/Characters/arona-swimsuit/qa/coding-contact-sheet.png`
+- `mac_os/docs/qa/current-target/overlay-audit/arona-swimsuit/overview.png` when generated
 
 Pass conditions:
 

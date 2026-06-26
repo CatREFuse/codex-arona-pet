@@ -1,6 +1,6 @@
 {
   "id": "plana-cat-maid",
-  "source": "/Users/tanshow/Developer/open-plana/shared/Characters/plana/qa/source-green.png",
+  "source": "/Users/tanshow/Developer/open-plana/shared/Characters/plana-cat-maid/qa/source-green.png",
   "generatedSource": "/Users/tanshow/.codex/generated_images/019effbc-11bb-7d20-8936-13c6985d5251/ig_04a3a6c5d77737f9016a3d600ad13c81999150948f1609aeb1.png",
   "atlasSize": [
     3072,
@@ -64,5 +64,5 @@
     "edge-rejected": 0.039026886185789415,
     "edge-success": 0.04156517078673918
   },
-  "note": "Generated Plana maid-cat-ear identity source was processed with repo base script, then Plana-only deterministic assembly preserved original orientation for edge states without horizontal mirroring."
+  "note": "Final atlas and extra-state frames were processed from generated source grids; local scripts were used only for chroma removal, slicing, sizing, atlas packing, QA images, and validation."
 }
