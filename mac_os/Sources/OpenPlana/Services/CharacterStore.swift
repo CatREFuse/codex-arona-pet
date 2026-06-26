@@ -13,7 +13,8 @@ final class CharacterStore: ObservableObject {
 
     private static let selectedCharacterDefaultsKey = "selectedCharacterId"
     private static let defaultCharacterId = "plana"
-    private static let supportedCharacterIds: Set<String> = ["arona", "arona-swimsuit", "kotonoha-neo", "plana", "plana-cat-maid"]
+    private static let orderedCharacterIds = ["plana", "arona", "plana-cat-maid", "arona-swimsuit", "kotonoha-neo"]
+    private static let supportedCharacterIds = Set(orderedCharacterIds)
     private static let legacyCharacterIds: [String: String] = [
         "arona-neo": "arona",
         "plana-neo": "plana"
@@ -53,7 +54,14 @@ final class CharacterStore: ObservableObject {
             if seen.contains(character.id) { return false }
             seen.insert(character.id)
             return true
-        }.sorted { $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending }
+        }.sorted {
+            let leftIndex = Self.orderedCharacterIds.firstIndex(of: $0.id) ?? Self.orderedCharacterIds.count
+            let rightIndex = Self.orderedCharacterIds.firstIndex(of: $1.id) ?? Self.orderedCharacterIds.count
+            if leftIndex != rightIndex {
+                return leftIndex < rightIndex
+            }
+            return $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending
+        }
 
         if selectedCharacter == nil {
             if characters.contains(where: { $0.id == Self.defaultCharacterId }) {
